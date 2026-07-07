@@ -413,7 +413,7 @@ input[type=number]{-moz-appearance:textfield}
     </div>
     <div class="admin-content" id="adminTabRecords" style="display:none">
       <div class="admin-card">
-        <h3>兑换记录</h3>
+        <h3 style="display:flex;justify-content:space-between;align-items:center">兑换记录 <button class="btn btn-ghost btn-small" onclick="exportRecords()" style="font-size:12px">📥 导出 Excel</button></h3>
         <div id="recordsList" class="admin-list">
           <span style="color:var(--text3);font-size:13px">暂无兑换记录</span>
         </div>
@@ -472,37 +472,33 @@ window.onerror=function(msg,src,line,col,err){
 const TIERS = {s:{label:'S级奖励',badge:'s',threshold:100,color:'var(--s-gold)'},b:{label:'B级奖励',badge:'b',threshold:65,color:'var(--b-silver)'},a:{label:'≥45分',badge:'a',threshold:45,color:'var(--a-bronze)'}};
 const DEF={
   gifts:[
-    // S级 ≥100分
-    {id:'s1',name:'月孵化保护卡（30天）',emoji:'🛡️',total:1,used:0,cost:100,tier:'s'},
-    {id:'s2',name:'专属VIP休息室（30天）',emoji:'👑',total:1,used:0,cost:100,tier:'s'},
-    {id:'s3',name:'专属VIP直播间（30天）',emoji:'📺',total:1,used:0,cost:100,tier:'s'},
-    {id:'s4',name:'指定化妆师（7天）',emoji:'💄',total:1,used:0,cost:100,tier:'s'},
-    {id:'s5',name:'个性化定制服装一套',emoji:'👗',total:2,used:0,cost:100,tier:'s'},
-    {id:'s6',name:'舞蹈私教课 随心约（7天）',emoji:'💃',total:1,used:0,cost:100,tier:'s'},
-    {id:'s7',name:'专属庆功宴派对',emoji:'🎉',total:1,used:0,cost:100,tier:'s'},
-    {id:'s8',name:'月赛海选直通卡',emoji:'🎫',total:1,used:0,cost:100,tier:'s'},
-    {id:'s9',name:'档期奖励卡',emoji:'📅',total:2,used:0,cost:100,tier:'s'},
-    {id:'s10',name:'个人专属写真一套',emoji:'📸',total:2,used:0,cost:100,tier:'s'},
-    {id:'s11',name:'S级别伴舞团队',emoji:'🕺',total:1,used:0,cost:100,tier:'s'},
-    {id:'s12',name:'S级别游机团队',emoji:'🎥',total:1,used:0,cost:100,tier:'s'},
-    {id:'s13',name:'活动抽奖卷',emoji:'🎟️',total:2,used:0,cost:100,tier:'s'},
-    {id:'s14',name:'S级别豪华精美下午茶',emoji:'🍰',total:2,used:0,cost:100,tier:'s'},
-    // B级 ≥65分
-    {id:'b1',name:'大牌化妆品',emoji:'💋',total:3,used:0,cost:65,tier:'b'},
-    {id:'b2',name:'专属直播画面升级包',emoji:'⚡',total:3,used:0,cost:65,tier:'b'},
-    {id:'b3',name:'特殊定制妆造1次',emoji:'✨',total:3,used:0,cost:65,tier:'b'},
-    {id:'b4',name:'A级下午茶',emoji:'🍵',total:3,used:0,cost:65,tier:'b'},
-    {id:'b5',name:'活动抽奖卷',emoji:'🎟️',total:3,used:0,cost:65,tier:'b'},
-    {id:'b6',name:'7天孵化保护卡',emoji:'🛡️',total:3,used:0,cost:65,tier:'b'},
-    {id:'b7',name:'履约延误保护卡',emoji:'🛡️',total:3,used:0,cost:65,tier:'b'},
-    {id:'b8',name:'周赛海选直通卡',emoji:'🎫',total:3,used:0,cost:65,tier:'b'},
-    {id:'b9',name:'周赛游机卡',emoji:'🎥',total:3,used:0,cost:65,tier:'b'},
-    // A级 ≥45分
-    {id:'a1',name:'用户定制入场特效',emoji:'🌈',total:3,used:0,cost:45,tier:'a'},
-    {id:'a2',name:'A级专属画面调试升级',emoji:'🖥️',total:3,used:0,cost:45,tier:'a'},
-    {id:'a3',name:'A级休息室7天',emoji:'🛋️',total:3,used:0,cost:45,tier:'a'},
-    {id:'a4',name:'个人专属冠军海报定制',emoji:'🏆',total:3,used:0,cost:45,tier:'a'},
+    {id:'g1',name:'月孵化保护卡（30天）',emoji:'🛡️',total:1,used:0,cost:100,tier:'s'},
+    {id:'g2',name:'专属VIP休息室（30天）',emoji:'👑',total:1,used:0,cost:100,tier:'s'},
+    {id:'g3',name:'专属VIP直播间（30天）',emoji:'📺',total:1,used:0,cost:100,tier:'s'},
+    {id:'g4',name:'指定化妆师（7天）',emoji:'💄',total:2,used:0,cost:100,tier:'s'},
+    {id:'g5',name:'个性化定制服装一套',emoji:'👗',total:1,used:0,cost:100,tier:'s'},
+    {id:'g6',name:'舞蹈私教课 随心约（7天）',emoji:'💃',total:2,used:0,cost:100,tier:'s'},
+    {id:'g7',name:'专属庆功宴派对',emoji:'🎉',total:2,used:0,cost:100,tier:'s'},
+    {id:'g8',name:'个人专属写真一套',emoji:'📸',total:1,used:0,cost:100,tier:'s'},
+    {id:'g9',name:'S级别伴舞团队',emoji:'🕺',total:2,used:0,cost:100,tier:'s'},
+    {id:'g10',name:'年会邀请卡',emoji:'🎫',total:2,used:0,cost:100,tier:'s'},
+    {id:'g11',name:'S级别游机团队',emoji:'🎥',total:2,used:0,cost:100,tier:'s'},
+    {id:'g12',name:'活动抽奖卷',emoji:'🎟️',total:2,used:0,cost:100,tier:'s'},
+    {id:'g13',name:'S级别豪华精美下午茶',emoji:'🍰',total:3,used:0,cost:100,tier:'s'},
+    {id:'g14',name:'精美化妆礼盒',emoji:'💋',total:3,used:0,cost:65,tier:'a'},
+    {id:'g15',name:'专属直播画面升级包',emoji:'⚡',total:1,used:0,cost:65,tier:'a'},
+    {id:'g16',name:'特殊定制妆造1次',emoji:'✨',total:3,used:0,cost:65,tier:'a'},
+    {id:'g17',name:'抖＋（3次）',emoji:'📱',total:3,used:0,cost:65,tier:'a'},
+    {id:'g18',name:'A级精美下午茶',emoji:'🍵',total:3,used:0,cost:65,tier:'a'},
+    {id:'g19',name:'7天孵化保护卡',emoji:'🛡️',total:3,used:0,cost:65,tier:'a'},
+    {id:'g20',name:'电影双人套票',emoji:'🎬',total:3,used:0,cost:65,tier:'a'},
+    {id:'g21',name:'夏日清凉礼包',emoji:'🧊',total:5,used:0,cost:65,tier:'a'},
+    {id:'g22',name:'用户定制入场特效',emoji:'🌈',total:3,used:0,cost:45,tier:'b'},
+    {id:'g23',name:'专属画面调试升级',emoji:'🖥️',total:3,used:0,cost:45,tier:'b'},
+    {id:'g24',name:'手机散热器',emoji:'📱',total:3,used:0,cost:45,tier:'b'},
+    {id:'g25',name:'单次履约保护卡',emoji:'🛡️',total:3,used:0,cost:30,tier:'b'}
   ],
+  records:[],
   streamers:[
     {id:'db1',name:'瑞瑞',realName:'李瑞',operator:'彭闵',totalPts:209,usedPts:0},
     {id:'db2',name:'子仪',realName:'滕梓怡',operator:'许丽红',totalPts:177,usedPts:0},
@@ -573,6 +569,26 @@ const DEF={
 const KEY='gx_star_v5';
 let D=(()=>{try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return JSON.parse(JSON.stringify(DEF))})();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){toast('保存失败：存储空间不足，请清理旧数据','error');console.error(e)}}
+function exportRecords(){
+  if(!D.records.length){toast('暂无兑换记录','error');return}
+  const BOM='\uFEFF';
+  const head='序号,兑换时间,主播,运营,兑换人,礼物,数量,消耗积分,类型\n';
+  const rows=D.records.map((r,i)=>[
+    i+1,
+    fmtTime(r.ts),
+    r.streamerName,
+    r.operator||'',
+    r.redeemer,
+    r.giftName,
+    Math.abs(r.qty),
+    Math.abs(r.ptsUsed),
+    r.isRollback?'回退':'兑换'
+  ].map(v=>{const s=String(v);return s.includes(',')||s.includes('"')?'"'+s.replace(/"/g,'""')+'"':s}).join(','));
+  const blob=new Blob([BOM+head+rows.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`兑换记录_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  toast('导出成功');
+}
 if(!localStorage.getItem(KEY))save();
 
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
@@ -846,7 +862,7 @@ function cancelGiftEdit(){
     <input class="narrow" id="gCost" type="number" placeholder="所需积分" min="1">
     <input class="narrow" id="gQty" type="number" placeholder="库存数量" min="1">
     <select class="mid" id="gTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
-      <option value="s">S级 ≥100分</option><option value="b">B级 ≥65分</option><option value="a">A级 ≥45分</option>
+      <option value="s">S级 ≥100分</option><option value="a">A级 ≥65分</option><option value="b">B级 ≥45分</option>
     </select>
     <button class="btn btn-primary btn-small" onclick="addGift()">+ 添加</button>`;
 }
