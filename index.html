@@ -153,7 +153,17 @@ body{
   background:linear-gradient(135deg,var(--ocean-100),var(--ocean-50));
   border:1px solid var(--ocean-200);border-radius:10px;
 }
-.points-box .pts-label{font-size:13px;color:var(--text);font-weight:600}
+.operator-display{
+  display:block;padding:10px 14px;min-height:40px;
+  background:var(--cream);border:1px solid var(--border);
+  border-radius:10px;font-size:14px;color:var(--text);
+  box-sizing:border-box;text-align:center;line-height:1.5;
+}
+.op-label{font-size:12px;color:var(--text3);margin-right:6px}
+.op-name{font-size:14px;color:var(--text);font-weight:600}
+.points-box .pts-label{font-size:13px;color:var(--text);font-weight:600;display:block}
+.pts-score-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:8px;border-top:1px solid var(--ocean-100)}
+.pts-score-label{font-size:14px;font-weight:600;color:var(--ocean-500);letter-spacing:.03em}
 .points-box .pts-value{
   font-family:'Rubik','PingFang SC',sans-serif;
   font-size:38px;font-weight:800;color:var(--ocean-500);line-height:1;
@@ -311,6 +321,7 @@ body{
   .query-card .label{font-size:16px;margin-bottom:12px}
   .query-card input,.query-card select{height:44px;font-size:15px}
   .points-box .pts-value{font-size:32px}
+  .pts-score-label{font-size:12px}
   .gift-card{padding:10px 12px 10px 16px}
   .gift-card .gift-icon{width:38px;height:38px;font-size:18px}
   .modal{padding:24px 20px}
@@ -372,24 +383,12 @@ body{
     </div>
     <div class="query-card">
       <div class="label">兑换礼物</div>
-      <div id="exchangeStreamerName" style="font-size:12px;color:var(--text3);margin-bottom:10px;min-height:18px"></div>
       <div style="margin-bottom:8px">
         <input type="text" id="rdmName" placeholder="兑换人姓名（必填）" style="width:100%;margin-bottom:8px;text-align:center">
         <select id="giftDropdown" style="width:100%;margin-bottom:8px" onchange="onGiftDropdownChange()">
           <option value="">选择礼物</option>
         </select>
-        <select id="operatorSelect" style="width:100%;margin-bottom:8px">
-          <option value="">选择运营</option>
-          <option>陈昀皓</option>
-          <option>郭灵波</option>
-          <option>李承阳</option>
-          <option>罗浩琛</option>
-          <option>彭闵</option>
-          <option>徐娜</option>
-          <option>许丽红</option>
-          <option>张艺霖</option>
-          <option>周宇</option>
-        </select>
+        <span id="operatorSelect" class="operator-display" style="width:100%;margin-bottom:8px"></span>
         <button class="btn btn-primary" onclick="quickRedeem()" style="width:100%;margin-top:4px">确认兑换</button>
       </div>
     </div>
@@ -582,7 +581,7 @@ const DEF={
     {id:'db27',name:'景淮',realName:'张添森',operator:'郭灵波',totalPts:50,usedPts:0},
     {id:'db28',name:'芋泥啵啵',realName:'林文静',operator:'许丽红',totalPts:49,usedPts:0},
     {id:'db29',name:'麦乐迪Melody🎶',realName:'刘逸如',operator:'许丽红',totalPts:49,usedPts:0},
-    {id:'db30',name:'花小花',realName:'聂兆钰',operator:'徐娜',totalPts:48,usedPts:0},
+    {id:'db30',name:'林乔',realName:'聂兆钰',operator:'许丽红',totalPts:48,usedPts:0},
     {id:'db31',name:'哦豁油貓餅',realName:'卢桔',operator:'陈昀皓',totalPts:47,usedPts:0},
     {id:'db32',name:'汽水',realName:'李婷',operator:'张艺霖',totalPts:45,usedPts:0},
     {id:'db33',name:'Big Shark',realName:'郑天宇',operator:'张艺霖',totalPts:44,usedPts:0},
@@ -595,14 +594,14 @@ const DEF={
     {id:'db40',name:'张垚！',realName:'张鹏程',operator:'许丽红',totalPts:25,usedPts:0},
     {id:'db41',name:'小雨我萌',realName:'刘羽',operator:'陈昀皓',totalPts:24,usedPts:0},
     {id:'db42',name:'眠眠小雨',realName:'李思雨',operator:'郭灵波',totalPts:23,usedPts:0},
-    {id:'db43',name:'知远 Leo',realName:'洪宇',operator:'徐娜',totalPts:23,usedPts:0},
+    {id:'db43',name:'知远 Leo',realName:'洪宇',operator:'张艺霖',totalPts:23,usedPts:0},
     {id:'db44',name:'欣欣子💕',realName:'王嘉欣',operator:'许丽红',totalPts:23,usedPts:0},
-    {id:'db45',name:'刘五冠希（兠匪）',realName:'刘子豪',operator:'徐娜',totalPts:22,usedPts:0},
+    {id:'db45',name:'刘子冠希',realName:'刘子豪',operator:'张艺霖',totalPts:22,usedPts:0},
     {id:'db46',name:'早安梨宝',realName:'曾莎莎',operator:'陈昀皓',totalPts:21,usedPts:0},
     {id:'db47',name:'鱼丸子🍡',realName:'虞家琪',operator:'张艺霖',totalPts:19,usedPts:0},
     {id:'db48',name:'司琪琪琪⁴⁷⁷⁷',realName:'耿司琪',operator:'张艺霖',totalPts:19,usedPts:0},
     {id:'db49',name:'林乔',realName:'刘梦娇',operator:'许丽红',totalPts:18,usedPts:0},
-    {id:'db50',name:'枫叶',realName:'周榆杰',operator:'徐娜',totalPts:14,usedPts:0},
+    {id:'db50',name:'枫叶',realName:'周榆杰',operator:'张艺霖',totalPts:14,usedPts:0},
     {id:'db51',name:'frezy菲泽',realName:'陈仲伟',operator:'郭灵波',totalPts:13,usedPts:0},
     {id:'db52',name:'小南瓜',realName:'王梓宁',operator:'许丽红',totalPts:13,usedPts:0},
     {id:'db53',name:'是我冒饭了',realName:'车宇淇',operator:'陈昀皓',totalPts:10,usedPts:0},
@@ -614,7 +613,7 @@ const DEF={
     {id:'db59',name:'阿Q',realName:'张于凤',operator:'陈昀皓',totalPts:2,usedPts:0},
     {id:'db60',name:'爱皱眉',realName:'方珺',operator:'张艺霖',totalPts:0,usedPts:0},
     {id:'db61',name:'樾樾',realName:'石玥',operator:'陈昀皓',totalPts:0,usedPts:0},
-    {id:'db62',name:'椰子🥥（想你的椰版）',realName:'汪芮',operator:'徐娜',totalPts:0,usedPts:0}
+    {id:'db62',name:'椰子🥥（想你的椰版）',realName:'汪芮',operator:'陈昀皓',totalPts:0,usedPts:0}
   ],
   records:[]
 };
@@ -677,28 +676,24 @@ function queryStreamer(){
   if(!s){resetStreamer();toast('未找到该主播','error');return}
   curStreamer=s.id;
   curOperator=s.operator||'';
-  const os=document.getElementById('operatorSelect');os.value=s.operator||'';os.disabled=true;
-  // Auto-fill exchange card streamer name
+  const os=document.getElementById('operatorSelect');os.innerHTML=curOperator?'<span class="op-label">运营</span><span class="op-name">'+esc(curOperator)+'</span>':'';
   const label=s.realName?s.name+'（'+s.realName+'）':s.name;
-  const exEl=document.getElementById('exchangeStreamerName');if(exEl)exEl.innerHTML='<span style="font-weight:600;color:var(--ocean-deep);font-size:14px">'+esc(label)+'</span>';
-  // Lock redeemer name to the streamer
   const rd=document.getElementById('rdmName');if(rd){rd.value=label;rd.readOnly=true;rd.style.opacity='0.7'}
   renderPoints();renderGifts();
 }
 function resetStreamer(){
   curStreamer=null;curOperator='';
-  const os=document.getElementById('operatorSelect');os.disabled=false;os.value='';
-  const exEl=document.getElementById('exchangeStreamerName');if(exEl)exEl.innerHTML='<span style="color:var(--text3);font-size:12px">请先查询主播积分</span>';
+  const os=document.getElementById('operatorSelect');if(os)os.textContent='';
   const rd=document.getElementById('rdmName');if(rd){rd.value='';rd.readOnly=false;rd.style.opacity='1'}
   renderPoints();renderGifts();
 }
 function renderPoints(){
   const el=document.getElementById('pointsDisplay');
   if(!curStreamer){el.innerHTML='<span class="pts-empty">输入主播昵称或姓名，点击查询显示积分</span>';return}
-  const s=D.streamers.find(x=>x.id===curStreamer);if(!s){el.innerHTML='<span class="pts-empty">未找到</span>';return}
+  const s=D.streamers.find(x=>x.id===curStreamer);if(!s){el.innerHTML='<span class="pts-empty">未找到该主播</span>';return}
   const remain=s.totalPts-s.usedPts;
   const label=s.realName?s.name+'（'+s.realName+'）':s.name;
-  el.innerHTML=`<span class="pts-label">${esc(label)}${curOperator?' · '+esc(curOperator):''}</span><span class="pts-empty" style="font-size:13px">剩余积分</span><span class="pts-value" style="color:${remain>=100?'var(--s-gold)':remain>=65?'var(--b-silver)':remain>=45?'var(--a-bronze)':'var(--text)'}">${fmt(remain)}</span>`;
+  el.innerHTML=`<div class="pts-row"><span class="pts-label">${esc(label)}${curOperator?' · '+esc(curOperator):''}</span></div><div class="pts-row pts-score-row"><span class="pts-score-label">剩余积分</span><span class="pts-value" style="color:${remain>=100?'var(--s-gold)':remain>=65?'var(--b-silver)':remain>=45?'var(--a-bronze)':'var(--text)'}">${fmt(remain)}</span></div>`;
 }
 
 // ===== RENDER GIFTS =====
@@ -780,7 +775,7 @@ function onGiftDropdownChange(){}
 function quickRedeem(){
   const gid=document.getElementById('giftDropdown').value;
   const nm=document.getElementById('rdmName').value.trim();
-  const op=document.getElementById('operatorSelect').value;
+  const op=document.getElementById('operatorSelect').textContent;
   if(!curStreamer){toast('请先查询主播积分','error');return}
   if(!gid){toast('请选择礼物','error');return}
   if(!nm){toast('请输入兑换人姓名','error');return}
@@ -950,7 +945,7 @@ function delStr(id){
   if(D.records&&D.records.some(r=>r.streamerId===id)){toast('有兑换记录','error');return}
   showConfirm('确定删除？',function(){
     D.streamers=D.streamers.filter(x=>x.id!==id);save();
-    if(curStreamer===id){curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').value=''}
+    if(curStreamer===id){curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').textContent=''}
     render();
   });
 }
@@ -967,14 +962,14 @@ function importData(e){
   new FileReader().addEventListener('load',ev=>{
     try{const d=JSON.parse(ev.target.result);if(!d.gifts||!d.streamers)throw 0;
     showConfirm('导入覆盖当前数据？',function(){
-      D=d;save();curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').value='';render();toast('已导入');
+      D=d;save();curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').textContent='';render();toast('已导入');
     })}catch(x){toast('格式错误','error')}
   }).readAsText(f);e.target.value='';
 }
 
 function resetAll(){
   showConfirm('重置清空所有数据？',function(){
-    D=JSON.parse(JSON.stringify(DEF));save();curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').value='';render();
+    D=JSON.parse(JSON.stringify(DEF));save();curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').textContent='';render();
   });
 }
 
