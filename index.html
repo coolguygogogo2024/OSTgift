@@ -397,10 +397,10 @@ input[type=number]{-moz-appearance:textfield}
       <div class="admin-card">
         <h3>添加礼物</h3>
         <div class="admin-row" id="giftAddRow">
-          <input class="wide" id="gName" placeholder="礼物名称">
+          <input class="wide" id="gName" placeholder="礼物名称（必填）">
           <input class="tiny" id="gEmoji" placeholder="图标" maxlength="4">
-          <input class="tiny" id="gCost" type="number" placeholder="积分" value="100" min="1">
-          <input class="tiny" id="gQty" type="number" placeholder="数量" value="1" min="1">
+          <input class="tiny" id="gCost" type="number" placeholder="所需积分" value="100" min="1">
+          <input class="tiny" id="gQty" type="number" placeholder="库存数量" value="1" min="1">
           <select class="mid" id="gTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
             <option value="s">S级 ≥100分</option>
             <option value="b">B级 ≥65分</option>
@@ -702,7 +702,7 @@ const ADMIN_PWD='flowerdance123';
 function openAdminAuth(){document.getElementById('adminAuthModal').style.display='flex';document.getElementById('adminPwd').value='';setTimeout(()=>document.getElementById('adminPwd').focus(),100)}
 function closeAdminAuth(){document.getElementById('adminAuthModal').style.display='none'}
 function checkAdminAuth(){if(document.getElementById('adminPwd').value===ADMIN_PWD){closeAdminAuth();document.getElementById('adminOverlay').style.display='block';document.body.style.overflow='hidden';renderAdminLists();switchAdminTab('gifts')}else{toast('密码错误','error')}}
-function closeAdmin(){document.getElementById('adminOverlay').style.display='none';document.body.style.overflow=''}
+function closeAdmin(){document.getElementById('adminOverlay').style.display='none';document.body.style.overflow='';render()}
 
 function switchAdminTab(tab){
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.toggle('active',t.textContent.includes(tab==='gifts'?'礼物':tab==='records'?'兑换记录':tab==='streamers'?'主播':tab==='data'?'数据':'')));
@@ -811,8 +811,8 @@ function editGift(id){
   document.getElementById('giftAddRow').innerHTML=`
     <input class="wide" id="egName" placeholder="礼物名称" value="${esc(g.name)}">
     <input class="tiny" id="egEmoji" placeholder="图标" value="${esc(g.emoji)}" maxlength="4">
-    <input class="tiny" id="egCost" type="number" placeholder="积分" value="${g.cost}" min="1">
-    <input class="tiny" id="egQty" type="number" placeholder="数量" value="${g.total}" min="${g.used}">
+    <input class="tiny" id="egCost" type="number" placeholder="所需积分" value="${g.cost}" min="1">
+    <input class="tiny" id="egQty" type="number" placeholder="库存数量" value="${g.total}" min="${g.used}">
     <select class="mid" id="egTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none;padding:0 8px">
       <option value="s"${g.tier==='s'?' selected':''}>S级 ≥100分</option>
       <option value="b"${g.tier==='b'?' selected':''}>B级 ≥65分</option>
