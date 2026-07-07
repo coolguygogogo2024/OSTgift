@@ -152,8 +152,8 @@ input[type=number]{-moz-appearance:textfield}
   font-family:'Space Grotesk','PingFang SC',sans-serif;letter-spacing:.03em;
 }
 .tier-badge.s{background:rgba(56,189,248,.15);color:var(--primary-light);border:1px solid rgba(56,189,248,.3)}
-.tier-badge.b{background:var(--border);color:var(--primary);border:1px solid var(--secondary)}
-.tier-badge.a{background:rgba(255,107,122,.15);color:#FF6B7A;border:1px solid rgba(255,107,122,.3)}
+.tier-badge.a{background:rgba(6,182,212,.12);color:var(--secondary);border:1px solid rgba(6,182,212,.3)}
+.tier-badge.b{background:rgba(2,132,199,.1);color:var(--primary);border:1px solid rgba(2,132,199,.3)}
 .tier-threshold{font-size:12px;color:var(--text2);margin-left:4px}
 .tier-header span:last-child{margin-left:auto;font-size:12px;font-weight:600;color:var(--primary)}
 
@@ -169,8 +169,8 @@ input[type=number]{-moz-appearance:textfield}
   letter-spacing:.04em;
 }
 .tier-badge.s{background:rgba(56,189,248,.15);color:var(--primary-light)}
-.tier-badge.b{background:rgba(6,182,212,.12);color:var(--secondary)}
-.tier-badge.a{background:rgba(2,132,199,.1);color:var(--primary)}
+.tier-badge.a{background:rgba(6,182,212,.12);color:var(--secondary)}
+.tier-badge.b{background:rgba(2,132,199,.1);color:var(--primary)}
 .tier-threshold{color:var(--text3);font-size:13px}
 .gift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .gift-card{
@@ -402,9 +402,9 @@ input[type=number]{-moz-appearance:textfield}
           <input class="narrow" id="gCost" type="number" placeholder="所需积分" min="1">
           <input class="narrow" id="gQty" type="number" placeholder="库存数量" min="1">
           <select class="mid" id="gTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
-            <option value="s">S级 ≥100分</option>
-            <option value="b">B级 ≥65分</option>
-            <option value="a">A级 ≥45分</option>
+            <option value="s">S级别奖励 ≥100分</option>
+            <option value="a">A级奖励 ≥65分</option>
+            <option value="b">B级奖励 ≥45分</option>
           </select>
           <button class="btn btn-primary btn-small" onclick="addGift()">+ 添加</button>
         </div>
@@ -469,7 +469,7 @@ window.onerror=function(msg,src,line,col,err){
 };
 
 // ========== REAL GIFT DATA ==========
-const TIERS = {s:{label:'S级奖励',badge:'s',threshold:100,color:'var(--s-gold)'},b:{label:'B级奖励',badge:'b',threshold:65,color:'var(--b-silver)'},a:{label:'≥45分',badge:'a',threshold:45,color:'var(--a-bronze)'}};
+const TIERS = {s:{label:'S级别奖励',badge:'s',threshold:100,color:'var(--s-gold)'},a:{label:'A级奖励',badge:'a',threshold:65,color:'var(--b-silver)'},b:{label:'B级奖励',badge:'b',threshold:45,color:'var(--a-bronze)'}};
 const DEF={
   gifts:[
     {id:'g1',name:'月孵化保护卡30天',emoji:'🛡️',total:1,used:0,cost:100,tier:'s'},
@@ -830,9 +830,9 @@ function editGift(id){
     <input class="narrow" id="egCost" type="number" placeholder="所需积分" value="${g.cost}" min="1">
     <input class="narrow" id="egQty" type="number" placeholder="库存数量" value="${g.total}" min="${g.used}">
     <select class="mid" id="egTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none;padding:0 8px">
-      <option value="s"${g.tier==='s'?' selected':''}>S级 ≥100分</option>
-      <option value="b"${g.tier==='b'?' selected':''}>B级 ≥65分</option>
-      <option value="a"${g.tier==='a'?' selected':''}>A级 ≥45分</option>
+      <option value="s"${g.tier==='s'?' selected':''}>S级别奖励 ≥100分</option>
+      <option value="a"${g.tier==='a'?' selected':''}>A级奖励 ≥65分</option>
+      <option value="b"${g.tier==='b'?' selected':''}>B级奖励 ≥45分</option>
     </select>
     <button class="btn btn-primary btn-small" onclick="saveGift('${id}')">保存</button>
     <button class="btn btn-ghost btn-small" onclick="cancelGiftEdit()">取消</button>`;
@@ -862,7 +862,7 @@ function cancelGiftEdit(){
     <input class="narrow" id="gCost" type="number" placeholder="所需积分" min="1">
     <input class="narrow" id="gQty" type="number" placeholder="库存数量" min="1">
     <select class="mid" id="gTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
-      <option value="s">S级 ≥100分</option><option value="a">A级 ≥65分</option><option value="b">B级 ≥45分</option>
+      <option value="s">S级别奖励 ≥100分</option><option value="a">A级奖励 ≥65分</option><option value="b">B级奖励 ≥45分</option>
     </select>
     <button class="btn btn-primary btn-small" onclick="addGift()">+ 添加</button>`;
 }
