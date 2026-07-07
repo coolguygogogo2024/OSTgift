@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星辰 · 盛夏逐光</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0A1628;
+  --bg-mid: #0F2444;
+  --bg-surface: #152238;
+  --bg-card: rgba(255,255,255,.06);
+  --bg-card-hover: rgba(255,255,255,.1);
+  --text: #F1F5F9;
+  --text2: #94A3B8;
+  --text3: #64748B;
+  --primary: #0284C7;
+  --primary-light: #38BDF8;
+  --secondary: #06B6D4;
+  --accent: #0891B2;
+  --border: rgba(255,255,255,.08);
+  --border-hover: rgba(255,255,255,.15);
+  --ring: rgba(2,132,199,.4);
+  --glass-bg: rgba(255,255,255,.06);
+  --glass-border: rgba(255,255,255,.08);
+  /* BUG-20 fix: renamed from misleading gold/silver/bronze names */
+  --s-color: #38BDF8;
+  --a-color: #06B6D4;
+  --b-color: #0284C7;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.4);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,.5);
+  --shadow-blue: 0 8px 32px rgba(2,132,199,.15);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  font-family:'DM Sans','PingFang SC','Microsoft YaHei',sans-serif;
+  background:var(--bg-deep);
+  color:var(--text);line-height:1.6;min-height:100vh;
+  background-attachment:fixed;font-weight:400;
+}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-deep)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary-light)}
+/* 全局隐藏数字输入框的上下箭头 */
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* Wave Divider */
+.wave-divider{display:block;width:100%;height:48px;margin:-1px 0}
+.wave-divider svg{width:100%;height:100%;display:block}
+
+/* Hero */
+.hero{
+  text-align:center;padding:72px 0 48px;animation:heroIn .5s ease;
+  position:relative;z-index:1;
+}
+@keyframes heroIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.hero-kicker{
+  font-family:'Space Grotesk','PingFang SC',sans-serif;
+  font-size:12px;font-weight:500;color:var(--primary-light);
+  letter-spacing:.2em;margin-bottom:16px;text-transform:uppercase;
+}
+.hero h1{
+  font-family:'Space Grotesk','PingFang SC',sans-serif;
+  font-size:clamp(32px,5vw,44px);font-weight:700;
+  background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 40%,var(--primary-light) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.2;margin-bottom:8px;
+}
+.hero .subtitle{
+  font-size:15px;color:var(--text2);letter-spacing:.04em;margin-top:8px;
+}
+.hero-deco{
+  position:absolute;top:0;right:-40px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(2,132,199,.1),transparent 70%);
+  pointer-events:none;z-index:0;
+}
+/* BUG-11 fix: .dream moved out of .aurora-bg nesting */
+.dream{background:linear-gradient(135deg,var(--primary-light),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
+/* Aurora background */
+.aurora-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% -20%,rgba(2,132,199,.15),transparent),
+    radial-gradient(ellipse 50% 50% at 80% 60%,rgba(6,182,212,.08),transparent),
+    radial-gradient(ellipse 60% 60% at 20% 80%,rgba(56,189,248,.1),transparent);
+}
+/* Query Section */
+.query-section{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:32px 0;position:relative;z-index:1;
+}
+.query-card{
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:20px;padding:28px 24px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:all .3s ease;
+}
+.query-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  box-shadow:var(--shadow-blue);
+}
+.query-card .label{
+  font-family:'Space Grotesk','PingFang SC',sans-serif;
+  font-size:18px;font-weight:600;color:var(--text);
+  margin-bottom:16px;
+}
+.query-row{display:flex;flex-direction:column;align-items:center;gap:10px}
+.query-card input,.query-card select{
+  width:100%;padding:12px 16px;
+  background:var(--bg-surface);border:1px solid var(--border);
+  border-radius:12px;font-size:14px;color:var(--text);
+  font-family:inherit;outline:none;text-align:center;
+  transition:border-color .2s;
+  color-scheme:dark;
+}
+.query-card input:focus,.query-card select:focus{
+  border-color:var(--primary);box-shadow:0 0 0 3px var(--ring);
+}
+.query-card input::placeholder{color:var(--text3)}
+.points-box{padding:16px 0;text-align:center}
+.points-box .pts-label{font-size:13px;color:var(--text);font-weight:500;display:block}
+.pts-score-row{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.pts-score-label{font-size:13px;font-weight:500;color:var(--text2);letter-spacing:.03em}
+.points-box .pts-value{
+  font-family:'Space Grotesk','PingFang SC',sans-serif;
+  font-size:40px;font-weight:700;line-height:1;
+}
+.points-box .pts-empty{font-size:13px;color:var(--text3)}
+.operator-display{
+  display:block;padding:12px 16px;min-height:44px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:12px;font-size:14px;color:var(--text);
+  box-sizing:border-box;text-align:center;line-height:1.5;
+}
+.op-label{font-size:12px;color:var(--text3);margin-right:6px}
+.op-name{font-size:14px;color:var(--text);font-weight:600}
+
+/* Gift Grid */
+.tier-section{margin-bottom:32px}
+.tier-header{
+  display:flex;align-items:center;font-size:14px;color:var(--text2);
+  margin-bottom:16px;gap:8px;
+}
+.tier-badge{
+  font-family:'Space Grotesk','PingFang SC',sans-serif;
+  font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;
+  letter-spacing:.04em;
+}
+.tier-badge.s{background:rgba(56,189,248,.15);color:var(--primary-light)}
+.tier-badge.a{background:rgba(6,182,212,.12);color:var(--secondary)}
+.tier-badge.b{background:rgba(2,132,199,.1);color:var(--primary)}
+.tier-threshold{color:var(--text3);font-size:13px}
+.gift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.gift-card{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:all .25s ease;position:relative;z-index:1;
+}
+.gift-card:hover{
+  border-color:var(--border-hover);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-blue);
+}
+.gift-card.sold-out{opacity:.35;pointer-events:none}
+/* BUG-14 fix: distinct visual for "locked" (insufficient points) vs "sold-out" */
+.gift-card.locked{opacity:.5}
+.gift-card .gift-icon{
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;background:rgba(255,255,255,.06);border-radius:12px;flex-shrink:0;
+}
+.gift-card .gift-body{flex:1;min-width:0}
+.gift-card .gift-name{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gift-card .gift-meta{font-size:12px;color:var(--text3);margin-top:2px}
+.gift-card .gift-stock{font-size:12px;color:var(--text3);flex-shrink:0}
+.gift-card .gift-stock.low{color:rgba(56,189,248,.7)}
+/* Modal */
+.modal-mask{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;animation:fadeIn .15s}
+@keyframes fadeIn{from{opacity:0}}
+.modal{width:calc(100% - 32px);max-width:380px;background:var(--bg-surface);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:var(--shadow-lg);animation:popIn .2s ease}
+@keyframes popIn{from{transform:scale(.97) translateY(12px);opacity:0}}
+.modal h3{font-family:'Space Grotesk','PingFang SC',sans-serif;font-size:17px;margin-bottom:4px;font-weight:700;color:var(--text)}
+.modal .sub{font-size:12px;color:var(--text2);margin-bottom:20px}
+.fields{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.fields input{height:42px;padding:0 14px;background:var(--bg-surface);border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border .15s,box-shadow .15s}
+.fields input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(0,180,216,.12)}
+.fields input::placeholder{color:var(--text3)}
+.qty-row{display:flex;align-items:center;gap:10px}
+.qty-row input[type=number]{width:64px;text-align:center}
+.qty-sum{font-size:12px;color:var(--text2)}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+
+/* Buttons */
+.btn{height:44px;padding:0 22px;border:none;border-radius:12px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .2s ease;display:inline-flex;align-items:center;justify-content:center}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-blue)}
+.btn-ghost{background:transparent;color:var(--text2);border:1.5px solid rgba(255,255,255,.18)}
+.btn-ghost:hover{border-color:var(--primary-light);color:var(--primary-light)}
+.btn-small{height:36px;padding:0 14px;font-size:13px;border-radius:8px}
+
+/* Toast */
+.toast-rack{position:fixed;top:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast-msg{padding:10px 20px;border-radius:12px;font-size:13px;font-weight:500;pointer-events:auto;backdrop-filter:blur(16px);border:1px solid var(--border)}
+.toast-msg.success{background:rgba(2,132,199,.2);color:var(--primary-light);border-color:rgba(2,132,199,.3)}
+.toast-msg.error{background:rgba(220,38,38,.15);color:#FCA5A5;border-color:rgba(220,38,38,.25)}
+
+/* Admin Trigger */
+.admin-trigger{text-align:center;margin:36px 0 50px}
+.admin-trigger button{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--text2);font-size:12px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s;padding:8px 16px;border-radius:10px}
+/* BUG-13 fix: merged duplicate hover rules */
+.admin-trigger button:hover{border-color:rgba(255,255,255,.25);color:var(--primary)}
+
+/* Admin Overlay */
+.admin-overlay{position:fixed;inset:0;z-index:500;background:var(--bg-surface);overflow-y:auto}
+.admin-shell{max-width:800px;margin:0 auto;padding:20px 24px 40px}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.admin-topbar h2{font-family:'Space Grotesk','PingFang SC',sans-serif;font-size:17px;font-weight:700;color:var(--text)}
+.admin-tabs{display:flex;gap:4px;margin-bottom:20px}
+.admin-tab{padding:7px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;background:transparent;color:var(--text2);transition:all .12s}
+.admin-tab:hover{background:var(--border);color:var(--primary)}
+.admin-tab.active{background:var(--primary);color:#fff}
+.admin-content{display:none}
+.admin-content:not([style*="display:none"]){display:block}
+.admin-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;padding:20px;margin-bottom:10px}
+.admin-card h3{font-family:'Space Grotesk','PingFang SC',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.admin-row{display:flex;gap:6px;flex-wrap:wrap;align-items:end;margin-bottom:8px}
+.admin-row input{height:36px;padding:0 10px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:inherit;color:var(--text);outline:none;transition:border .15s}
+.admin-row input:focus{border-color:var(--primary-light)}
+.admin-row input.wide{width:160px}.admin-row input.mid{width:85px}.admin-row input.tiny{width:55px}.admin-row input.narrow{width:90px}
+.admin-list{display:flex;flex-direction:column;gap:3px}
+.admin-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;font-size:12px;background:var(--bg-surface);flex-wrap:wrap;gap:6px;color:var(--text)}
+.admin-item .meta{color:var(--text3);font-size:11px}
+.act-btn{height:26px;padding:0 8px;border:none;border-radius:6px;font-size:11px;font-family:inherit;cursor:pointer;background:transparent;color:var(--text2);transition:all .12s}
+.act-btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+
+#giftDropdown option.s-tier{color:var(--primary-light);font-weight:700}
+#giftDropdown option.b-tier{color:var(--secondary);font-weight:600}
+#giftDropdown option.a-tier{color:var(--primary);font-weight:600}
+#giftDropdown option.sold-out{color:var(--text3)}
+
+/* Footer */
+.site-footer{text-align:center;padding:40px 0 48px;margin-top:20px;position:relative}
+.site-footer .footer-title{font-family:'Space Grotesk','PingFang SC',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.site-footer .footer-sub{font-size:12px;color:var(--text3)}
+
+/* Custom Dialog */
+.custom-dialog-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.custom-dialog-box{background:var(--bg-surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;max-width:380px;width:90%;box-shadow:var(--shadow-lg);text-align:center}
+.custom-dialog-msg{font-size:15px;color:var(--text);line-height:1.6;margin-bottom:20px;white-space:pre-line}
+.custom-dialog-input{width:100%;padding:10px 14px;margin-bottom:16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;color:var(--text);background:rgba(255,255,255,.05);outline:none;text-align:center}
+.custom-dialog-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--ring)}
+.custom-dialog-btns{display:flex;gap:10px;justify-content:center}
+.custom-dialog-btns button{min-width:90px}
+
+/* BUG-21 fix: editStr form styles */
+.edit-str-form{display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:16px}
+.edit-str-form input{height:36px;padding:0 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none}
+.edit-str-form input:focus{border-color:var(--primary-light)}
+
+@media(max-width:600px){
+  .hero{padding:48px 0 32px}
+  .hero-kicker{font-size:11px}
+  .hero h1{font-size:24px}
+  .hero .subtitle{font-size:13px}
+  .hero-deco{display:none}
+  .wave-divider{height:32px}
+  .gift-grid{grid-template-columns:1fr}
+  .query-section{grid-template-columns:1fr;gap:12px}
+  .query-card{padding:20px 16px}
+  .query-card .label{font-size:16px;margin-bottom:12px}
+  .query-card input,.query-card select{height:44px;font-size:15px}
+  .points-box .pts-value{font-size:32px}
+  .pts-score-label{font-size:12px}
+  .gift-card{padding:10px 12px 10px 16px}
+  .gift-card .gift-icon{width:38px;height:38px;font-size:18px}
+  .modal{padding:24px 20px}
+  .modal h3{font-size:16px}
+  .fields input{height:40px;font-size:15px}
+  .btn{height:38px;font-size:13px}
+  .wrap{padding:0 16px}
+}
+</style>
+  <script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.1/cloudbase.full.js"></script>
+</head>
+<body>
+<div class="aurora-bg"></div>
+<div class="toast-rack" id="toasts"></div>
+<main class="wrap">
+
+  <div class="hero">
+    <div class="hero-kicker">OST · SUMMER 2026</div>
+    <h1>星辰 · 盛夏逐光 <span class="dream">Dream</span></h1>
+    <div class="subtitle">积分兑换礼物商城 · 让每一份努力都被看见</div>
+    <div class="hero-deco">
+      <svg viewBox="0 0 120 120" fill="none">
+        <path d="M10,40 Q30,20 50,40 T90,40 T130,40" stroke="var(--secondary)" stroke-width="3" fill="none" opacity=".5"/>
+        <path d="M10,55 Q30,35 50,55 T90,55 T130,55" stroke="var(--primary-light)" stroke-width="3" fill="none" opacity=".4"/>
+        <path d="M10,70 Q30,50 50,70 T90,70 T130,70" stroke="var(--primary)" stroke-width="3" fill="none" opacity=".3"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+      <path d="M0,24 C240,48 480,0 720,24 C960,48 1200,0 1440,24 L1440,48 L0,48 Z" fill="rgba(56,189,248,.1)" opacity="0.3"/>
+      <path d="M0,32 C240,8 480,40 720,24 C960,8 1200,40 1440,24 L1440,48 L0,48 Z" fill="rgba(6,182,212,.08)" opacity="0.2"/>
+    </svg>
+  </div>
+
+  <div class="query-section">
+    <div class="query-card">
+      <div class="label">查询积分</div>
+      <div class="query-row">
+        <input type="text" id="streamerInput" placeholder="输入主播昵称或姓名" autocomplete="off">
+        <button class="btn btn-primary btn-small" onclick="queryStreamer()">查询积分</button>
+      </div>
+      <div class="points-box" id="pointsDisplay">
+        <span class="pts-empty">输入主播昵称或姓名，点击查询显示积分</span>
+      </div>
+    </div>
+    <div class="query-card">
+      <div class="label">兑换礼物</div>
+      <div style="margin-bottom:8px">
+        <input type="text" id="rdmName" placeholder="兑换人姓名（必填）" style="width:100%;margin-bottom:8px;text-align:center">
+        <select id="giftDropdown" style="width:100%;margin-bottom:8px" onchange="onGiftDropdownChange()">
+          <option value="">选择礼物</option>
+        </select>
+        <span id="operatorSelect" class="operator-display" style="width:100%;margin-bottom:8px"></span>
+        <button class="btn btn-primary" onclick="quickRedeem()" style="width:100%;margin-top:4px">确认兑换</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:40px 0 24px"><span style="font-family:'Space Grotesk','PingFang SC',sans-serif;font-size:20px;font-weight:700;color:var(--text);letter-spacing:.04em">兑换礼物</span><div style="width:40px;height:3px;background:linear-gradient(90deg,var(--primary-light),var(--secondary));margin:8px auto 0;border-radius:2px"></div></div>
+  <div id="giftArea"></div>
+
+  <div class="admin-trigger">
+    <button onclick="openAdminAuth()">⚙️ 管理后台</button>
+  </div>
+
+  <div class="wave-divider" style="margin-top:20px">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="none">
+      <path d="M0,24 C240,0 480,48 720,24 C960,0 1200,48 1440,24 L1440,0 L0,0 Z" fill="rgba(56,189,248,.1)" opacity="0.3"/>
+      <path d="M0,16 C240,40 480,8 720,24 C960,40 1200,8 1440,24 L1440,0 L0,0 Z" fill="rgba(6,182,212,.08)" opacity="0.2"/>
+    </svg>
+  </div>
+  <footer class="site-footer">
+    <p class="footer-title">星辰 · 盛夏逐光</p>
+    <p class="footer-sub">积分兑换礼物商城 · 让每一份努力都被看见</p>
+  </footer>
+</main>
+
+<!-- Admin Password Modal -->
+<div class="modal-mask" id="adminAuthModal" style="display:none">
+  <div class="modal" style="max-width:340px">
+    <h3>🔐 管理后台登录</h3>
+    <div class="sub">请输入管理密码</div>
+    <div class="fields">
+      <input type="password" id="adminPwd" placeholder="密码" onkeydown="if(event.key==='Enter')checkAdminAuth()">
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeAdminAuth()">取消</button>
+      <button class="btn btn-primary" onclick="checkAdminAuth()">登录</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Panel Overlay -->
+<div class="admin-overlay" id="adminOverlay" style="display:none">
+  <div class="admin-shell">
+    <div class="admin-topbar">
+      <h2>管理后台</h2>
+      <button class="btn btn-ghost btn-small" onclick="closeAdmin()">✕ 关闭</button>
+    </div>
+    <div class="admin-tabs">
+      <!-- BUG-18 fix: added data-tab attributes -->
+      <button class="admin-tab active" data-tab="gifts" onclick="switchAdminTab('gifts')">🎁 礼物管理</button>
+      <button class="admin-tab" data-tab="records" onclick="switchAdminTab('records')">📋 兑换记录</button>
+      <button class="admin-tab" data-tab="streamers" onclick="switchAdminTab('streamers')">👤 主播管理</button>
+      <button class="admin-tab" data-tab="data" onclick="switchAdminTab('data')">💾 数据</button>
+    </div>
+    <div class="admin-content" id="adminTabGifts">
+      <div class="admin-card">
+        <h3>添加礼物</h3>
+        <div class="admin-row" id="giftAddRow">
+          <input class="wide" id="gName" placeholder="礼物名称（必填）">
+          <input class="tiny" id="gEmoji" placeholder="图标" maxlength="4">
+          <input class="narrow" id="gCost" type="number" placeholder="所需积分" min="1">
+          <input class="narrow" id="gQty" type="number" placeholder="库存数量" min="1">
+          <select class="mid" id="gTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
+            <option value="s">S级别奖励 ≥100分</option>
+            <option value="a">A级奖励 ≥65分</option>
+            <option value="b">B级奖励 ≥45分</option>
+          </select>
+          <button class="btn btn-primary btn-small" onclick="addGift()">+ 添加</button>
+        </div>
+        <div class="admin-list" id="giftList"></div>
+      </div>
+    </div>
+    <div class="admin-content" id="adminTabRecords" style="display:none">
+      <div class="admin-card">
+        <h3 style="display:flex;justify-content:space-between;align-items:center">兑换记录 <button class="btn btn-ghost btn-small" onclick="exportRecords()" style="font-size:12px">📥 导出 Excel</button></h3>
+        <div id="recordsList" class="admin-list">
+          <span style="color:var(--text3);font-size:13px">暂无兑换记录</span>
+        </div>
+      </div>
+    </div>
+    <div class="admin-content" id="adminTabStreamers" style="display:none">
+      <div class="admin-card">
+        <h3>添加主播</h3>
+        <div class="admin-row">
+          <input class="wide" id="sName" placeholder="昵称">
+          <input class="wide" id="sRealName" placeholder="实名（选填）">
+          <input class="tiny" id="sPts" type="number" placeholder="积分" min="0">
+          <select class="mid" id="sOperator" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
+            <option value="">选择运营</option>
+            <option>陈昀皓</option>
+            <option>郭灵波</option>
+            <option>李承阳</option>
+            <option>罗浩琛</option>
+            <option>彭闵</option>
+            <option>徐娜</option>
+            <option>许丽红</option>
+            <option>张艺霖</option>
+            <option>周宇</option>
+          </select>
+          <button class="btn btn-primary btn-small" onclick="addStreamer()">+ 添加</button>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h3>主播列表</h3>
+        <div class="admin-list" id="streamerList"></div>
+      </div>
+    </div>
+    <div class="admin-content" id="adminTabData" style="display:none">
+      <div class="admin-card">
+        <h3>数据备份</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-small" onclick="exportData()">📥 导出JSON</button>
+          <button class="btn btn-ghost btn-small" onclick="document.getElementById('impFile').click()">📤 导入JSON</button>
+          <button class="btn btn-ghost btn-small" style="color:#c0392b" onclick="resetAll()">🔄 重置全部</button>
+          <input type="file" id="impFile" accept=".json" hidden onchange="importData(event)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== GLOBAL ERROR HANDLER =====
+window.onerror=function(msg,src,line,col,err){
+  console.error("JS error:",msg,"line",line);
+  try{var t=document.getElementById('toasts');if(t){var e=document.createElement('div');e.className='toast-msg error';e.textContent='错误:'+String(msg).slice(0,80);e.style.fontSize='12px';t.appendChild(e);setTimeout(function(){e.remove()},6000)}}catch(ign){}
+  return false;
+};
+
+// ========== REAL GIFT DATA ==========
+const TIERS = {s:{label:'S级别奖励',badge:'s',threshold:100,color:'var(--s-color)'},a:{label:'A级奖励',badge:'a',threshold:65,color:'var(--a-color)'},b:{label:'B级奖励',badge:'b',threshold:45,color:'var(--b-color)'}};
+const DEF={
+  gifts:[
+    {id:'g1',name:'月孵化保护卡30天',emoji:'🛡️',total:1,used:0,cost:100,tier:'s'},
+    {id:'g2',name:'专属VIP休息室试用（30天）',emoji:'👑',total:1,used:0,cost:100,tier:'s'},
+    {id:'g3',name:'专属VIP直播间（30天）',emoji:'📺',total:1,used:0,cost:100,tier:'s'},
+    {id:'g4',name:'指定化妆师（7天）',emoji:'💄',total:2,used:0,cost:100,tier:'s'},
+    {id:'g5',name:'个性化定制服装一套',emoji:'👗',total:1,used:0,cost:100,tier:'s'},
+    {id:'g6',name:'舞蹈课程随心约（7天）',emoji:'💃',total:2,used:0,cost:100,tier:'s'},
+    {id:'g7',name:'专属庆功宴派对',emoji:'🎉',total:2,used:0,cost:100,tier:'s'},
+    {id:'g8',name:'个人专属写真一套',emoji:'📸',total:1,used:0,cost:100,tier:'s'},
+    {id:'g9',name:'S级别伴舞团队',emoji:'🕺',total:2,used:0,cost:100,tier:'s'},
+    {id:'g10',name:'年会邀请卡',emoji:'🎫',total:2,used:0,cost:100,tier:'s'},
+    {id:'g11',name:'S级别游击团队',emoji:'🎥',total:2,used:0,cost:100,tier:'s'},
+    {id:'g12',name:'活动抽奖卷一张',emoji:'🎟️',total:2,used:0,cost:100,tier:'s'},
+    {id:'g13',name:'S级别精美下午茶',emoji:'🍰',total:3,used:0,cost:100,tier:'s'},
+    {id:'g14',name:'精美化妆礼盒一份',emoji:'💋',total:3,used:0,cost:65,tier:'a'},
+    {id:'g15',name:'专属直播画面升级包',emoji:'⚡',total:1,used:0,cost:65,tier:'a'},
+    {id:'g16',name:'特殊定制妆造1次',emoji:'✨',total:3,used:0,cost:65,tier:'a'},
+    {id:'g17',name:'抖＋（3次）',emoji:'📱',total:3,used:0,cost:65,tier:'a'},
+    {id:'g18',name:'A级精美下午茶',emoji:'🍵',total:3,used:0,cost:65,tier:'a'},
+    {id:'g19',name:'7天孵化保护卡',emoji:'🛡️',total:3,used:0,cost:65,tier:'a'},
+    {id:'g20',name:'电影双人套票',emoji:'🎬',total:3,used:0,cost:65,tier:'a'},
+    {id:'g21',name:'夏日清凉礼包',emoji:'🧊',total:5,used:0,cost:65,tier:'a'},
+    {id:'g22',name:'用户定制入场特效',emoji:'🌈',total:3,used:0,cost:45,tier:'b'},
+    {id:'g23',name:'专属画面调试升级',emoji:'🖥️',total:3,used:0,cost:45,tier:'b'},
+    {id:'g24',name:'手机散热器',emoji:'📱',total:3,used:0,cost:45,tier:'b'},
+    {id:'g25',name:'单次履约保护卡',emoji:'🛡️',total:3,used:0,cost:45,tier:'b'}
+  ],
+
+  streamers:[
+    {id:'db1',name:'瑞瑞',realName:'李瑞',operator:'彭闵',totalPts:209,usedPts:0},
+    {id:'db2',name:'子仪',realName:'滕梓怡',operator:'许丽红',totalPts:177,usedPts:0},
+    {id:'db3',name:'灰原哀',realName:'王珂',operator:'张艺霖',totalPts:167,usedPts:0},
+    {id:'db4',name:'烤眠羊',realName:'杨杨',operator:'许丽红',totalPts:133,usedPts:0},
+    {id:'db5',name:'代瓣蒜',realName:'代雨涵',operator:'陈昀皓',totalPts:132,usedPts:0},
+    {id:'db6',name:'鞋垫子',realName:'许诺',operator:'陈昀皓',totalPts:119,usedPts:0},
+    {id:'db7',name:'谁的天菜',realName:'王舒缇',operator:'郭灵波',totalPts:114,usedPts:0},
+    {id:'db8',name:'Mathias',realName:'桓雨生',operator:'许丽红',totalPts:114,usedPts:0},
+    {id:'db9',name:'鱼块',realName:'罗丝运',operator:'许丽红',totalPts:106,usedPts:0},
+    {id:'db10',name:'胖胖胖虎☡zᶻ',realName:'王蕊',operator:'许丽红',totalPts:104,usedPts:0},
+    {id:'db11',name:'文文',realName:'欧文英',operator:'彭闵',totalPts:100,usedPts:0},
+    {id:'db12',name:'蜡笔小歆',realName:'何芯莉',operator:'张艺霖',totalPts:98,usedPts:0},
+    {id:'db13',name:'唯一¹¹⁵⁹',realName:'丁唯一',operator:'郭灵波',totalPts:93,usedPts:0},
+    {id:'db14',name:'小鱼儿⁰¹¹⁰',realName:'刘枫',operator:'张艺霖',totalPts:90,usedPts:0},
+    {id:'db15',name:'朱瑞琪Ricky',realName:'朱瑞琪',operator:'张艺霖',totalPts:85,usedPts:0},
+    {id:'db16',name:'玖 Xin',realName:'陈玖妡',operator:'张艺霖',totalPts:80,usedPts:0},
+    {id:'db17',name:'思艾',realName:'张赛',operator:'许丽红',totalPts:80,usedPts:0},
+    {id:'db18',name:'窈窈',realName:'王兮窈',operator:'郭灵波',totalPts:75,usedPts:0},
+    {id:'db19',name:'酸奶大王',realName:'盛婷婷',operator:'张艺霖',totalPts:70,usedPts:0},
+    {id:'db20',name:'邪恶猫猫',realName:'黄依林',operator:'郭灵波',totalPts:66,usedPts:0},
+    {id:'db21',name:'泽田',realName:'周明杰',operator:'郭灵波',totalPts:61,usedPts:0},
+    {id:'db22',name:'吃一口曲奇',realName:'王云',operator:'李承阳',totalPts:60,usedPts:0},
+    {id:'db23',name:'Y.ang',realName:'黄扬',operator:'张艺霖',totalPts:56,usedPts:0},
+    {id:'db24',name:'kitty丸',realName:'徐欣怡',operator:'许丽红',totalPts:52,usedPts:0},
+    {id:'db25',name:'你看他真帅！',realName:'万扬',operator:'郭灵波',totalPts:51,usedPts:0},
+    {id:'db26',name:'嗯Enn',realName:'崔晨曦',operator:'郭灵波',totalPts:50,usedPts:0},
+    {id:'db27',name:'景淮',realName:'张添森',operator:'郭灵波',totalPts:50,usedPts:0},
+    {id:'db28',name:'芋泥啵啵',realName:'林文静',operator:'许丽红',totalPts:49,usedPts:0},
+    {id:'db29',name:'麦乐迪Melody🎶',realName:'刘逸如',operator:'许丽红',totalPts:49,usedPts:0},
+    {id:'db30',name:'林乔',realName:'聂兆钰',operator:'许丽红',totalPts:48,usedPts:0},
+    {id:'db31',name:'哦豁油貓餅',realName:'卢桔',operator:'陈昀皓',totalPts:47,usedPts:0},
+    {id:'db32',name:'汽水',realName:'李婷',operator:'张艺霖',totalPts:45,usedPts:0},
+    {id:'db33',name:'Big Shark',realName:'郑天宇',operator:'张艺霖',totalPts:44,usedPts:0},
+    {id:'db34',name:'林熙',realName:'张凌熙',operator:'徐娜',totalPts:41,usedPts:0},
+    {id:'db35',name:'只只',realName:'马嘉仪',operator:'张艺霖',totalPts:37,usedPts:0},
+    {id:'db36',name:'面包酱',realName:'冯雨晖',operator:'许丽红',totalPts:36,usedPts:0},
+    {id:'db37',name:'木圭.',realName:'李艾',operator:'许丽红',totalPts:35,usedPts:0},
+    {id:'db38',name:'夜神月-',realName:'成雨鑫',operator:'张艺霖',totalPts:35,usedPts:0},
+    {id:'db39',name:'MANNSSON!',realName:'颜峰',operator:'陈昀皓',totalPts:25,usedPts:0},
+    {id:'db40',name:'张垚！',realName:'张鹏程',operator:'许丽红',totalPts:25,usedPts:0},
+    {id:'db41',name:'小雨我萌',realName:'刘羽',operator:'陈昀皓',totalPts:24,usedPts:0},
+    {id:'db42',name:'眠眠小雨',realName:'李思雨',operator:'郭灵波',totalPts:23,usedPts:0},
+    {id:'db43',name:'知远 Leo',realName:'洪宇',operator:'张艺霖',totalPts:23,usedPts:0},
+    {id:'db44',name:'欣欣子💕',realName:'王嘉欣',operator:'许丽红',totalPts:23,usedPts:0},
+    {id:'db45',name:'刘子冠希',realName:'刘子豪',operator:'张艺霖',totalPts:22,usedPts:0},
+    {id:'db46',name:'早安梨宝',realName:'曾莎莎',operator:'陈昀皓',totalPts:21,usedPts:0},
+    {id:'db47',name:'鱼丸子🍡',realName:'虞家琪',operator:'张艺霖',totalPts:19,usedPts:0},
+    {id:'db48',name:'司琪琪琪⁴⁷⁷⁷',realName:'耿司琪',operator:'张艺霖',totalPts:19,usedPts:0},
+    {id:'db49',name:'林乔',realName:'刘梦娇',operator:'许丽红',totalPts:18,usedPts:0},
+    {id:'db50',name:'枫叶',realName:'周榆杰',operator:'张艺霖',totalPts:14,usedPts:0},
+    {id:'db51',name:'frezy菲泽',realName:'陈仲伟',operator:'郭灵波',totalPts:13,usedPts:0},
+    {id:'db52',name:'小南瓜',realName:'王梓宁',operator:'许丽红',totalPts:13,usedPts:0},
+    {id:'db53',name:'是我冒饭了',realName:'车宇淇',operator:'陈昀皓',totalPts:10,usedPts:0},
+    {id:'db54',name:'在下猫猫雨',realName:'谢春雨',operator:'陈昀皓',totalPts:6,usedPts:0},
+    {id:'db55',name:'无敌大王',realName:'王奕凡',operator:'张艺霖',totalPts:5,usedPts:0},
+    {id:'db56',name:'高压锅',realName:'高博文',operator:'张艺霖',totalPts:5,usedPts:0},
+    {id:'db57',name:'糖果',realName:'刘芸嘉',operator:'张艺霖',totalPts:4,usedPts:0},
+    {id:'db58',name:'晕晕',realName:'何路窈',operator:'陈昀皓',totalPts:3,usedPts:0},
+    {id:'db59',name:'阿Q',realName:'张于凤',operator:'陈昀皓',totalPts:2,usedPts:0},
+    {id:'db60',name:'爱皱眉',realName:'方珺',operator:'张艺霖',totalPts:0,usedPts:0},
+    {id:'db61',name:'樾樾',realName:'石玥',operator:'陈昀皓',totalPts:0,usedPts:0},
+    {id:'db62',name:'椰子🥥（想你的椰版）',realName:'汪芮',operator:'陈昀皓',totalPts:0,usedPts:0}
+  ],
+  records:[]
+};
+
+const KEY='gx_star_v6';
+let D=JSON.parse(JSON.stringify(DEF));
+// BUG-03+04 fix: added record and streamer watcher variables
+let tcbApp=null,tcbDb=null,tcbReady=false,tcbGiftWatcher=null,tcbStreamerWatcher=null,tcbRecordWatcher=null;
+
+// ===== CloudBase 初始化 =====
+(async function initCloudBase(){
+  try{
+    tcbApp=cloudbase.init({env:'ostgift-d0gim6ky878a7cd69'});
+    tcbDb=tcbApp.database();
+    var auth=tcbApp.auth();
+    await auth.anonymousAuthProvider().signIn();
+    // BUG-03 fix: also load records from cloud
+    var resArr=await Promise.all([
+      tcbDb.collection('gifts').get(),
+      tcbDb.collection('streamers').get(),
+      tcbDb.collection('records').orderBy('ts','desc').limit(200).get()
+    ]);
+    var gRes=resArr[0],sRes=resArr[1],recRes=resArr[2];
+    // BUG-02 fix: map _id to id for all cloud data
+    if(gRes.data&&gRes.data.length){
+      D.gifts=gRes.data.map(function(g){return Object.assign({},g,{id:g.id||g._id})});
+      D.streamers=(sRes.data||D.streamers).map(function(s){return Object.assign({},s,{id:s.id||s._id})});
+    }
+    // BUG-03 fix: load records from cloud
+    if(recRes.data&&recRes.data.length){
+      D.records=recRes.data.map(function(r){return Object.assign({},r,{id:r.id||r._id})});
+    }
+    tcbReady=true;console.log('[CloudBase] OK gifts:'+D.gifts.length+' streamers:'+D.streamers.length+' records:'+D.records.length);
+    startCloudWatch();
+    render();
+  }catch(e){
+    console.error('[CloudBase] Init failed, fallback localStorage',e);
+    try{var lr2=localStorage.getItem(KEY);if(lr2)D=JSON.parse(lr2)}catch(e2){}
+    try{var lr=localStorage.getItem(KEY+'_recs');if(lr)D.records=JSON.parse(lr)}catch(e3){}
+    render();
+  }
+})().catch(function(){render();});
+
+// ===== CloudBase 实时监听 =====
+function startCloudWatch(){
+  try{
+    tcbGiftWatcher=tcbDb.collection('gifts').watch({
+      onChange:function(snap){
+        if(!snap.docs)return;
+        // BUG-02 fix: map _id to id
+        D.gifts=snap.docs.map(function(g){return Object.assign({},g,{id:g.id||g._id})});
+        clearTimeout(window._giftRenderTimer);
+        window._giftRenderTimer=setTimeout(function(){render();},200);
+      },
+      onError:function(err){console.error('[CloudBase] watch gifts err',err);setTimeout(startCloudWatch,5000);}
+    });
+    // BUG-04 fix: watch streamers collection
+    tcbStreamerWatcher=tcbDb.collection('streamers').watch({
+      onChange:function(snap){
+        if(!snap.docs)return;
+        D.streamers=snap.docs.map(function(s){return Object.assign({},s,{id:s.id||s._id})});
+        clearTimeout(window._streamerRenderTimer);
+        window._streamerRenderTimer=setTimeout(function(){render();},200);
+      },
+      onError:function(err){console.error('[CloudBase] watch streamers err',err);setTimeout(startCloudWatch,5000);}
+    });
+    // BUG-03 fix: watch records collection
+    tcbRecordWatcher=tcbDb.collection('records').orderBy('ts','desc').limit(200).watch({
+      onChange:function(snap){
+        if(!snap.docs)return;
+        D.records=snap.docs.map(function(r){return Object.assign({},r,{id:r.id||r._id})});
+        clearTimeout(window._recRenderTimer);
+        window._recRenderTimer=setTimeout(function(){
+          renderRecords();
+          try{localStorage.setItem(KEY+'_recs',JSON.stringify(D.records))}catch(e){}
+        },200);
+      },
+      onError:function(err){console.error('[CloudBase] watch records err',err);setTimeout(startCloudWatch,5000);}
+    });
+  }catch(e){console.error('[CloudBase] watch init failed',e);}
+}
+
+// ===== 持久化 =====
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}
+  try{localStorage.setItem(KEY+'_recs',JSON.stringify(D.records))}catch(e){}
+}
+
+// 页面卸载时清理 watchers
+window.addEventListener('beforeunload',function(){
+  if(tcbGiftWatcher&&tcbGiftWatcher.close)tcbGiftWatcher.close();
+  if(tcbStreamerWatcher&&tcbStreamerWatcher.close)tcbStreamerWatcher.close();
+  if(tcbRecordWatcher&&tcbRecordWatcher.close)tcbRecordWatcher.close();
+});
+function exportRecords(){
+  if(!D.records.length){toast('暂无兑换记录','error');return}
+  const BOM='\uFEFF';
+  const head='序号,兑换时间,主播,运营,兑换人,礼物,数量,消耗积分,类型\n';
+  const rows=D.records.map((r,i)=>[
+    i+1,
+    fmtTime(r.ts),
+    r.streamerName,
+    r.operator||'',
+    r.redeemer,
+    r.giftName,
+    Math.abs(r.qty),
+    Math.abs(r.ptsUsed),
+    r.isRollback?'回退':'兑换'
+  ].map(v=>{const s=String(v);return s.includes(',')||s.includes('"')?'"'+s.replace(/"/g,'""')+'"':s}).join(','));
+  const blob=new Blob([BOM+head+rows.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`兑换记录_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  toast('导出成功');
+}
+if(!localStorage.getItem(KEY))save();
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const fmt=n=>n.toLocaleString('zh-CN');
+const esc=s=>{const d=document.createElement('div');d.textContent=s;return d.innerHTML};
+const remain=g=>g.total-g.used;
+let curStreamer=null,curOperator='';
+
+// ===== Custom Dialog (replaces native confirm/prompt) =====
+var _dialogCb=null;
+function showConfirm(msg,ok,cancel){
+  document.getElementById('customDialogMsg').textContent=msg;
+  document.getElementById('customDialogInput').style.display='none';
+  document.getElementById('customDialog').style.display='flex';
+  _dialogCb=ok;
+  document.getElementById('customDialogOk').onclick=function(){
+    document.getElementById('customDialog').style.display='none';
+    if(_dialogCb)_dialogCb();
+  };
+  document.getElementById('customDialogCancel').onclick=function(){
+    document.getElementById('customDialog').style.display='none';
+    if(cancel)cancel();
+  };
+}
+function showPrompt(msg,defVal,ok){
+  document.getElementById('customDialogMsg').textContent=msg;
+  var inp=document.getElementById('customDialogInput');
+  inp.style.display='block';inp.value=defVal||'';
+  document.getElementById('customDialog').style.display='flex';
+  document.getElementById('customDialogOk').onclick=function(){
+    document.getElementById('customDialog').style.display='none';
+    if(ok)ok(inp.value.trim());
+  };
+  document.getElementById('customDialogCancel').onclick=function(){
+    document.getElementById('customDialog').style.display='none';
+  };
+  setTimeout(function(){inp.focus();inp.select()},100);
+}
+
+function toast(msg,type='success'){
+  const r=document.getElementById('toasts');const e=document.createElement('div');
+  e.className=`toast-msg ${type}`;e.textContent=msg;r.appendChild(e);
+  setTimeout(()=>{e.style.opacity='0';e.style.transition='opacity .3s';setTimeout(()=>e.remove(),300)},2500);
+}
+
+// ===== STREAMER =====
+function queryStreamer(){
+  const val=document.getElementById('streamerInput').value.trim();
+  if(!val){resetStreamer();toast('请输入主播昵称或姓名','error');return}
+  let s=D.streamers.find(x=>x.realName===val);
+  if(!s)s=D.streamers.find(x=>x.name===val);
+  if(!s){const lower=val.toLowerCase();const matches=D.streamers.filter(x=>x.name.toLowerCase().includes(lower));if(matches.length===1)s=matches[0];else if(matches.length>1){toast(`找到${matches.length}个匹配，请输入更精确的名称`,'error');return}}
+  if(!s){resetStreamer();toast('未找到该主播','error');return}
+  curStreamer=s.id;
+  curOperator=s.operator||'';
+  const os=document.getElementById('operatorSelect');os.innerHTML=curOperator?'<span class="op-label">运营</span><span class="op-name">'+esc(curOperator)+'</span>':'';
+  const label=s.realName?s.name+'（'+s.realName+'）':s.name;
+  const rd=document.getElementById('rdmName');if(rd){rd.value=label;rd.readOnly=true;rd.style.opacity='0.7'}
+  renderPoints();renderGifts();
+}
+function resetStreamer(){
+  curStreamer=null;curOperator='';
+  const os=document.getElementById('operatorSelect');if(os)os.textContent='';
+  const rd=document.getElementById('rdmName');if(rd){rd.value='';rd.readOnly=false;rd.style.opacity='1'}
+  renderPoints();renderGifts();
+}
+function renderPoints(){
+  const el=document.getElementById('pointsDisplay');
+  if(!curStreamer){el.innerHTML='<span class="pts-empty">输入主播昵称或姓名，点击查询显示积分</span>';return}
+  const s=D.streamers.find(x=>x.id===curStreamer);if(!s){el.innerHTML='<span class="pts-empty">未找到该主播</span>';return}
+  const remain=s.totalPts-s.usedPts;
+  const label=s.realName?s.name+'（'+s.realName+'）':s.name;
+  el.innerHTML=`<div class="pts-row"><span class="pts-label">${esc(label)}${curOperator?' · '+esc(curOperator):''}</span></div><div class="pts-row pts-score-row"><span class="pts-score-label">剩余积分</span><span class="pts-value" style="color:${remain>=100?'var(--s-color)':remain>=65?'var(--a-color)':remain>=45?'var(--b-color)':'var(--text)'}">${fmt(remain)}</span></div>`;
+}
+
+// ===== RENDER GIFTS =====
+function renderGifts(){
+  const area=document.getElementById('giftArea');
+  if(!D.gifts.length){area.innerHTML='<div style="text-align:center;padding:48px;color:var(--text3)">暂无礼物</div>';return}
+
+  const streamerPts = curStreamer ? (()=>{const s=D.streamers.find(x=>x.id===curStreamer);return s?s.totalPts-s.usedPts:0})() : 0;
+
+  // Group by tier
+  const tiers={s:[],b:[],a:[]};
+  D.gifts.forEach(g=>{(tiers[g.tier]||tiers.a).push(g)});
+
+  const tierOrder=['s','a','b'];
+  let html='';
+  tierOrder.forEach(tk=>{
+    const gifts=tiers[tk];if(!gifts||!gifts.length)return;
+    const t=TIERS[tk];
+    const cards=gifts.map((g,idx)=>{
+      const r=remain(g),sold=r<=0;
+      const locked = streamerPts < g.cost;
+      // BUG-14 fix: use 'locked' class instead of 'sold-out' for insufficient points
+      const cls = sold?'sold-out':(locked&&curStreamer?'locked':'');
+      return`
+      <div class="gift-card ${cls}" style="animation-delay:${idx*0.04}s">
+        <div class="gift-icon">${esc(g.emoji||'🎁')}</div>
+        <div class="gift-body">
+          <div class="gift-name">${esc(g.name)}</div>
+          <div class="gift-meta">
+            <span>需 ${fmt(g.cost)} 积分</span>
+          </div>
+        </div>
+        <div class="gift-stock${r<=g.total*.2?' low':''}">
+          ${sold?'已兑完':locked&&curStreamer?'积分不足':`剩 ${r}/${g.total}`}
+        </div>
+      </div>`;
+    }).join('');
+    html+=`
+    <div class="tier-section">
+      <div class="tier-header">
+        <span class="tier-badge ${t.badge}">${t.label}</span>
+        <span style="margin:0 6px;color:var(--text2)">|</span><span class="tier-threshold">≥${t.threshold} 积分可兑换</span>
+        ${curStreamer?`<span style="margin-left:auto;font-size:13px;color:${streamerPts>=t.threshold?'var(--primary-light)':'var(--text3)'}">${streamerPts>=t.threshold?'✓ 已达标':'⚠ 未达标'}</span>`:''}
+      </div>
+      <div class="gift-grid">${cards}</div>
+    </div>`;
+  });
+  area.innerHTML=html;
+}
+
+
+
+// ===== ADMIN =====
+// BUG-19: known limitation - admin password is plaintext (internal tool, acceptable short-term)
+const ADMIN_PWD='flowerdance123';
+function openAdminAuth(){document.getElementById('adminAuthModal').style.display='flex';document.getElementById('adminPwd').value='';setTimeout(()=>document.getElementById('adminPwd').focus(),100)}
+function closeAdminAuth(){document.getElementById('adminAuthModal').style.display='none'}
+function checkAdminAuth(){if(document.getElementById('adminPwd').value===ADMIN_PWD){closeAdminAuth();document.getElementById('adminOverlay').style.display='block';document.body.style.overflow='hidden';renderAdminLists();switchAdminTab('gifts')}else{toast('密码错误','error')}}
+function closeAdmin(){document.getElementById('adminOverlay').style.display='none';document.body.style.overflow='';render()}
+
+// BUG-18 fix: use data-tab attribute matching instead of textContent
+function switchAdminTab(tab){
+  document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab===tab)});
+  ['gifts','records','streamers','data'].forEach(function(t){document.getElementById('adminTab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display=t===tab?'block':'none'});
+  if(tab==='gifts')renderAdminLists();
+  if(tab==='records')renderRecords();
+  if(tab==='streamers')renderStreamers();
+}
+
+function populateGiftDropdown(){
+  const sel=document.getElementById('giftDropdown');
+  const curId=sel.value;
+  sel.innerHTML='<option value="">选择礼物</option>'+D.gifts.map(g=>{
+    const r=remain(g),sold=r<=0;
+    // BUG-16 fix: null check for TIERS[g.tier]
+    const label=esc(g.emoji||'')+' '+esc(g.name)+' - '+esc((TIERS[g.tier]||{label:'未知'}).label)+' ('+fmt(g.cost)+'分)';
+    const cls=sold?'sold-out':g.tier+'-tier';
+    return '<option value="'+g.id+'" class="'+cls+'" '+(sold?'disabled':'')+'>'+(sold?'[已兑完] ':'')+label+'</option>';
+  }).join('');
+  if(curId){const opt=sel.querySelector('option[value="'+curId+'"]');if(opt&&!opt.disabled)sel.value=curId}
+}
+function onGiftDropdownChange(){
+  var gid=document.getElementById('giftDropdown').value;
+  if(!gid||!curStreamer)return;
+  var g=D.gifts.find(function(x){return x.id===gid});
+  if(!g)return;
+  var s=D.streamers.find(function(x){return x.id===curStreamer});
+  var r=s?s.totalPts-s.usedPts:0;
+  if(r<g.cost)toast('积分不足(剩余'+fmt(r)+'分)，需要'+fmt(g.cost)+'分','error');
+  else if(remain(g)<=0)toast('该礼物已兑完','error');
+}
+function quickRedeem(){doRedeem()}
+async function doRedeem(){
+  var gid=document.getElementById('giftDropdown').value;
+  var nm=document.getElementById('rdmName').value.trim();
+  // BUG-06 fix: use curOperator directly instead of textContent (which includes "运营" label)
+  var op=curOperator||'';
+  if(!curStreamer){toast('请先查询主播积分','error');return}
+  if(!gid){toast('请选择礼物','error');return}
+  if(!nm){toast('请输入兑换人姓名','error');return}
+  if(!op){toast('请选择运营','error');return}
+  var g=D.gifts.find(function(x){return x.id===gid});
+  if(!g||remain(g)<=0){toast('库存不足','error');return}
+  var s=D.streamers.find(function(x){return x.id===curStreamer});
+  if(s.totalPts-s.usedPts<g.cost){toast('积分不足','error');return}
+
+  // BUG-01+07 fix: correct CloudBase inc syntax + no retry (prevent double increment)
+  var cloudOK=false;
+  if(tcbReady){
+    try{
+      var cloudRes=await tcbDb.collection('gifts').doc(g.id).update({used:tcbDb.command.inc(1)});
+      cloudOK=!!(cloudRes&&cloudRes.updated>0);
+      if(!cloudOK){
+        var fresh=await tcbDb.collection('gifts').doc(g.id).get();
+        if(fresh.data&&fresh.data.length){
+          var fd=fresh.data[0];
+          D.gifts=D.gifts.map(function(gg){return gg.id===g.id?Object.assign({},fd,{id:fd.id||fd._id}):gg;});
+        }
+        render();toast('该礼物已被抢完，请刷新后重试','error');return;
+      }
+    }catch(e){console.error('cloud redeem err',e);toast('网络异常，请稍后重试','error');return;}
+  }
+  g.used++;s.usedPts+=g.cost;
+
+  // BUG-05 fix: atomic increment for streamer usedPts (prevent lost update on concurrent redeem)
+  if(tcbReady&&cloudOK){
+    try{await tcbDb.collection('streamers').doc(s.id).update({usedPts:tcbDb.command.inc(g.cost)})}catch(e){console.error('streamer inc err',e);toast('主播积分同步失败，请检查网络','error')}
+  }
+
+  var rec={id:uid(),giftId:g.id,giftName:g.name,streamerId:s.id,streamerName:s.name,redeemer:nm,operator:op,qty:1,ptsUsed:g.cost,ts:Date.now()};
+  if(tcbReady){tcbDb.collection('records').add(rec).catch(function(e){console.error('add record err',e);toast('兑换记录同步失败','error')})}
+  D.records.unshift(rec);
+  save();render();toast(nm+' 兑换 '+g.name+' 成功','success');
+}
+
+function fmtTime(ts){const d=new Date(ts);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`}
+function renderRecords(){
+  const el=document.getElementById('recordsList');
+  if(!D.records||!D.records.length){el.innerHTML='<span style="color:var(--text3);font-size:13px">暂无兑换记录</span>';return}
+  el.innerHTML=D.records.slice(0,50).map((r,i)=>{
+    const isRollback=r.giftName&&r.giftName.indexOf("回退")>=0;
+    if(isRollback) return `<div class="admin-item" style="background:rgba(255,107,122,.12);border-left:3px solid #FF6B7A"><span>↩ ${esc(r.redeemer)} 回退 ${esc(r.giftName.replace('【回退】',''))}</span><span class="meta">${esc(r.streamerName)} · ${r.operator||'?'} · ${fmtTime(r.ts)}</span><span><button class="act-btn" style="color:var(--text3)" disabled>已退回</button></span></div>`
+    return `<div class="admin-item"><span>${esc(r.redeemer)} 兑换 ${esc(r.giftName)} ${r.qty>1?'×'+r.qty:''}</span><span class="meta">${esc(r.streamerName)} · ${r.operator||'?'} · ${fmtTime(r.ts)}</span><span><button class="act-btn" style="color:#FF6B7A" onclick="rollbackRecord('${r.id}')">回退</button></span></div>`}).join('');
+}
+function rollbackRecord(id){
+  try{
+    const rec=D.records.find(r=>r.id===id);
+    if(!rec){toast('记录不存在','error');return}
+    // BUG-15 fix: removed redundant duplicate condition
+    if(rec.giftName&&rec.giftName.indexOf("回退")>=0){toast('已经是回退记录','error');return}
+    var nm=rec.redeemer||'未知';
+    var gn=rec.giftName||'未知';
+    showConfirm('回退「'+nm+'」兑换的「'+gn+'」？\n将恢复'+rec.ptsUsed+'积分和'+(rec.qty||1)+'件库存',function(){
+      if(rec.giftId){var g=D.gifts.find(x=>x.id===rec.giftId);if(g)g.used=Math.max(0,g.used-(rec.qty||1))}
+      if(rec.streamerId){var s=D.streamers.find(x=>x.id===rec.streamerId);if(s)s.usedPts=Math.max(0,s.usedPts-rec.ptsUsed)}
+      var newRec={id:uid(),giftId:rec.giftId||'',giftName:'【回退】'+rec.giftName,streamerId:rec.streamerId||'',streamerName:rec.streamerName||'',redeemer:rec.redeemer,operator:rec.operator||'',qty:-(rec.qty||1),ptsUsed:-rec.ptsUsed,ts:Date.now()};
+      D.records=D.records.filter(r=>r.id!==id);
+      if(tcbReady){
+        if(rec.giftId){tcbDb.collection('gifts').doc(rec.giftId).update({used:tcbDb.command.inc(-(rec.qty||1))}).catch(function(e){console.error(e)})}
+        if(rec.streamerId){tcbDb.collection('streamers').doc(rec.streamerId).update({usedPts:tcbDb.command.inc(-rec.ptsUsed)}).catch(function(e){console.error(e)})}
+      }
+      D.records.unshift(newRec);
+      save();render();renderRecords();toast('已回退并返还积分库存');
+    });
+  }catch(e){toast('回退出错:'+e.message,'error')}
+}
+
+function renderStreamers(){
+  const el=document.getElementById('streamerList');
+  if(!el)return;
+  el.innerHTML=D.streamers.map(s=>`<div class="admin-item"><span>👤 ${esc(s.name)} ${s.realName?'('+esc(s.realName)+')':''}</span><span class="meta">剩余${fmt(s.totalPts-s.usedPts)} / 累计${fmt(s.totalPts)} · 已用${fmt(s.usedPts)}${s.operator?' · '+esc(s.operator):''}</span><span><button class="act-btn" onclick="editStr('${s.id}')">编辑</button><button class="act-btn" style="color:#ff9e9e" onclick="delStr('${s.id}')">删除</button></span></div>`).join('');
+}
+
+function renderAdminLists(){
+try{
+
+  const gl=document.getElementById('giftList');if(gl)gl.innerHTML=D.gifts.map(g=>`
+<div class="admin-item" style="flex-direction:column;align-items:flex-start;gap:4px">
+      <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
+        <span style="font-weight:600">${esc(g.emoji||'🎁')} ${esc(g.name)} <span style="font-weight:400;font-size:11px;color:var(--text3)">${(TIERS[g.tier]||{label:'未知'}).label}</span></span>
+        <span style="font-size:12px;color:var(--text);white-space:nowrap">${fmt(g.cost)}积分 · 剩${remain(g)}/${g.total}</span>
+      </div>
+      <div style="display:flex;gap:4px"><button class="act-btn" onclick="editGift('${g.id}')">编辑</button><button class="act-btn" style="color:#FF6B7A" onclick="delGift('${g.id}')">删除</button></div>
+    </div>
+`).join('');
+  renderStreamers();
+
+}catch(e){toast('renderAdminLists出错:'+e.message,'error');console.error('renderAdminLists',e);}
+}
+
+function addGift(){
+try{
+
+  const nm=document.getElementById('gName').value.trim(),em=document.getElementById('gEmoji').value.trim();
+  const q=parseInt(document.getElementById('gQty').value),tier=document.getElementById('gTier').value;
+  const rawCost=parseInt(document.getElementById('gCost')?.value);
+  const cost=isNaN(rawCost)?(TIERS[tier]&&TIERS[tier].threshold)||100:rawCost;
+  if(!nm||q<1||cost<1){toast('请完整填写','error');return}
+    var newId=uid();
+  // BUG-02 fix: write both _id and id to cloud
+  if(tcbReady){tcbDb.collection('gifts').add({_id:newId,id:newId,name:nm,emoji:em,total:q,used:0,cost:cost,tier:tier}).catch(function(e){console.error('addGift cloud err',e);toast('云端同步失败，请检查网络','error')})}
+  D.gifts.push({id:newId,name:nm,emoji:em,total:q,used:0,cost:cost,tier:tier});
+  save();render();renderAdminLists();toast(`已添加 ${nm}`);
+  document.getElementById('gName').value='';document.getElementById('gEmoji').value='';document.getElementById('gQty').value='';document.getElementById('gCost').value='';
+
+}catch(e){toast('addGift出错:'+e.message,'error');console.error('addGift',e);}
+}
+
+function editGift(id){
+  const g=D.gifts.find(x=>x.id===id);if(!g)return;
+  document.getElementById('giftAddRow').innerHTML=`
+    <input class="wide" id="egName" placeholder="礼物名称" value="${esc(g.name)}">
+    <input class="tiny" id="egEmoji" placeholder="图标" value="${esc(g.emoji)}" maxlength="4">
+    <input class="narrow" id="egCost" type="number" placeholder="所需积分" value="${g.cost}" min="1">
+    <input class="narrow" id="egQty" type="number" placeholder="库存数量" value="${g.total}" min="${g.used}">
+    <select class="mid" id="egTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:inherit;outline:none;padding:0 8px">
+      <option value="s"${g.tier==='s'?' selected':''}>S级别奖励 ≥100分</option>
+      <option value="a"${g.tier==='a'?' selected':''}>A级奖励 ≥65分</option>
+      <option value="b"${g.tier==='b'?' selected':''}>B级奖励 ≥45分</option>
+    </select>
+    <button class="btn btn-primary btn-small" onclick="saveGift('${id}')">保存</button>
+    <button class="btn btn-ghost btn-small" onclick="cancelGiftEdit()">取消</button>`;
+}
+
+function saveGift(id){
+  try{
+    const g=D.gifts.find(x=>x.id===id);if(!g)return;
+    const nEl=document.getElementById('egName'),eEl=document.getElementById('egEmoji'),qEl=document.getElementById('egQty'),tEl=document.getElementById('egTier'),cEl=document.getElementById('egCost');
+    if(!nEl||!qEl||!tEl){toast('表单异常，请刷新重试','error');return}
+    g.name=nEl.value.trim();
+    g.emoji=eEl?eEl.value.trim():'';
+    const newQ=parseInt(qEl.value);if(isNaN(newQ)||newQ<1)return;
+    g.total=newQ;
+    g.tier=tEl.value;
+    const rawC=parseInt(cEl&&cEl.value);g.cost=isNaN(rawC)?g.cost:rawC;
+    if(g.total<g.used){toast('不能小于已兑('+g.used+')','error');return}
+    if(!g.name){toast('请完整填写','error');return}
+    // BUG-23 fix: toast on cloud sync failure
+    if(tcbReady){tcbDb.collection('gifts').doc(g.id).update({name:g.name,emoji:g.emoji,total:g.total,cost:g.cost,tier:g.tier}).catch(function(e){console.error('saveGift cloud err',e);toast('云端同步失败，请检查网络','error')})}
+    save();cancelGiftEdit();render();renderAdminLists();toast('已保存');
+  }catch(e){toast('保存出错:'+e.message,'error');console.error(e)}
+}
+
+function cancelGiftEdit(){
+  document.getElementById('giftAddRow').innerHTML=`
+    <input class="wide" id="gName" placeholder="礼物名称（必填）">
+    <input class="tiny" id="gEmoji" placeholder="图标" maxlength="4">
+    <input class="narrow" id="gCost" type="number" placeholder="所需积分" min="1">
+    <input class="narrow" id="gQty" type="number" placeholder="库存数量" min="1">
+    <select class="mid" id="gTier" style="height:36px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);outline:none;padding:0 8px">
+      <option value="s">S级别奖励 ≥100分</option><option value="a">A级奖励 ≥65分</option><option value="b">B级奖励 ≥45分</option>
+    </select>
+    <button class="btn btn-primary btn-small" onclick="addGift()">+ 添加</button>`;
+}
+
+function delGift(id){
+  try{
+    const g=D.gifts.find(x=>x.id===id);
+    if(!g){toast('礼物不存在','error');return}
+    if(g.used>0){toast('有兑换记录，无法删除','error');return}
+    showConfirm('删除「'+g.name+'」？',function(){
+      // BUG-23 fix: toast on cloud sync failure
+      if(tcbReady){tcbDb.collection('gifts').doc(id).remove().catch(function(e){console.error('delGift cloud err',e);toast('云端删除失败，请检查网络','error')})}
+    D.gifts=D.gifts.filter(x=>x.id!==id);
+      save();render();renderAdminLists();toast('已删除');
+    });
+  }catch(e){toast('删除出错:'+e.message,'error')}
+}
+
+function addStreamer(){
+  const nm=document.getElementById('sName').value.trim(),rn=(document.getElementById('sRealName')||{}).value?.trim()||'';
+  const p=parseInt(document.getElementById('sPts').value),op=(document.getElementById('sOperator')||{}).value||'';
+  if(!nm||isNaN(p)||p<0){toast('请完整填写','error');return}
+    var newSid=uid();
+  // BUG-02 fix: write both _id and id to cloud
+  if(tcbReady){tcbDb.collection('streamers').add({_id:newSid,id:newSid,name:nm,realName:rn,operator:op,totalPts:p,usedPts:0}).catch(function(e){console.error('addStr cloud err',e);toast('云端同步失败，请检查网络','error')})}
+  D.streamers.push({id:newSid,name:nm,realName:rn,operator:op,totalPts:p,usedPts:0});
+  save();render();toast(`已添加 ${nm}`);
+  document.getElementById('sName').value='';if(document.getElementById('sRealName'))document.getElementById('sRealName').value='';document.getElementById('sPts').value='';
+}
+
+// BUG-21 fix: replaced 5-level nested prompt with single-form dialog
+function editStr(id){
+  var s=D.streamers.find(function(x){return x.id===id});if(!s)return;
+  var msg=document.getElementById('customDialogMsg');
+  var inp=document.getElementById('customDialogInput');
+  inp.style.display='none';
+  msg.innerHTML='编辑主播信息'+
+    '<div class="edit-str-form">'+
+    '<input id="es_name" placeholder="昵称" value="'+esc(s.name)+'">'+
+    '<input id="es_realName" placeholder="实名（选填）" value="'+esc(s.realName||'')+'">'+
+    '<input id="es_operator" placeholder="运营" value="'+esc(s.operator||'')+'">'+
+    '<input id="es_totalPts" type="number" placeholder="累计积分" value="'+s.totalPts+'" min="0">'+
+    '<input id="es_usedPts" type="number" placeholder="已使用积分" value="'+s.usedPts+'" min="0">'+
+    '</div>';
+  document.getElementById('customDialog').style.display='flex';
+  document.getElementById('customDialogOk').onclick=function(){
+    document.getElementById('customDialog').style.display='none';
+    var nm2=document.getElementById('es_name').value.trim();
+    var rn2=document.getElementById('es_realName').value.trim();
+    var op2=document.getElementById('es_operator').value.trim();
+    var tp2=parseInt(document.getElementById('es_totalPts').value);
+    var up2=parseInt(document.getElementById('es_usedPts').value);
+    if(!nm2){toast('昵称不能为空','error');return}
+    if(isNaN(tp2)||tp2<0){toast('累计积分无效','error');return}
+    if(isNaN(up2)||up2<0||up2>tp2){toast('已用积分无效','error');return}
+    s.name=nm2;s.realName=rn2;s.operator=op2;s.totalPts=tp2;s.usedPts=up2;
+    // BUG-23 fix: toast on cloud sync failure
+    if(tcbReady){tcbDb.collection('streamers').doc(id).update({name:nm2,realName:rn2,operator:op2,totalPts:tp2,usedPts:up2}).catch(function(e){console.error('editStr cloud err',e);toast('云端同步失败，请检查网络','error')})}
+    save();render();
+    msg.innerHTML='';
+  };
+  document.getElementById('customDialogCancel').onclick=function(){
+    document.getElementById('customDialog').style.display='none';
+    msg.innerHTML='';
+  };
+  setTimeout(function(){document.getElementById('es_name').focus();document.getElementById('es_name').select()},100);
+}
+
+// BUG-22 fix: also check cloud records before deleting streamer
+function delStr(id){
+  if(D.records&&D.records.some(r=>r.streamerId===id)){toast('有兑换记录，无法删除','error');return}
+  function doDelete(){
+    showConfirm('确定删除？',function(){
+      if(tcbReady){tcbDb.collection('streamers').doc(id).remove().catch(function(e){console.error('delStr cloud err',e);toast('云端删除失败，请检查网络','error')})}
+      D.streamers=D.streamers.filter(x=>x.id!==id);save();
+      if(curStreamer===id){curStreamer=null;curOperator='';document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').textContent=''}
+      render();
+    });
+  }
+  if(tcbReady){
+    tcbDb.collection('records').where({streamerId:id}).count().then(function(res){
+      if(res.total>0){toast('云端有该主播的兑换记录，无法删除','error');return}
+      doDelete();
+    }).catch(function(e){
+      console.error('delStr cloud check err',e);
+      doDelete();
+    });
+  }else{
+    doDelete();
+  }
+}
+
+function exportData(){
+  const b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download=`star-gift-${new Date().toISOString().slice(0,10)}.json`;a.click();
+  URL.revokeObjectURL(a.href);toast('已导出');
+}
+
+// BUG-10 fix: sync imported data to cloud
+function importData(e){
+  const f=e.target.files[0];if(!f)return;
+  new FileReader().addEventListener('load',ev=>{
+    try{const d=JSON.parse(ev.target.result);if(!d.gifts||!d.streamers)throw 0;
+    showConfirm('导入覆盖当前数据？',async function(){
+      if(tcbReady){
+        try{
+          await tcbDb.collection('gifts').where({_id:tcbDb.command.neq(null)}).remove();
+          await tcbDb.collection('streamers').where({_id:tcbDb.command.neq(null)}).remove();
+          for(var i=0;i<d.gifts.length;i++){
+            var g=d.gifts[i];
+            await tcbDb.collection('gifts').add({_id:g.id,id:g.id,name:g.name,emoji:g.emoji,total:g.total,used:g.used||0,cost:g.cost,tier:g.tier});
+          }
+          for(var j=0;j<d.streamers.length;j++){
+            var s=d.streamers[j];
+            await tcbDb.collection('streamers').add({_id:s.id,id:s.id,name:s.name,realName:s.realName,operator:s.operator,totalPts:s.totalPts,usedPts:s.usedPts||0});
+          }
+          toast('已导入并同步到云端');
+        }catch(err){console.error('import cloud err',err);toast('云端同步失败','error')}
+      }
+      D=d;save();curStreamer=null;curOperator='';
+      document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').textContent='';
+      render();if(!tcbReady)toast('已导入');
+    })}catch(x){toast('格式错误','error')}
+  }).readAsText(f);e.target.value='';
+}
+
+// BUG-08 fix: clear all 3 cloud collections + reseed DEF data
+function resetAll(){
+  showConfirm('重置清空所有数据？',async function(){
+    if(tcbReady){
+      try{
+        await tcbDb.collection('gifts').where({_id:tcbDb.command.neq(null)}).remove();
+        await tcbDb.collection('streamers').where({_id:tcbDb.command.neq(null)}).remove();
+        await tcbDb.collection('records').where({_id:tcbDb.command.neq(null)}).remove();
+        for(var i=0;i<DEF.gifts.length;i++){
+          var g=DEF.gifts[i];
+          await tcbDb.collection('gifts').add({_id:g.id,id:g.id,name:g.name,emoji:g.emoji,total:g.total,used:g.used,cost:g.cost,tier:g.tier});
+        }
+        for(var j=0;j<DEF.streamers.length;j++){
+          var s=DEF.streamers[j];
+          await tcbDb.collection('streamers').add({_id:s.id,id:s.id,name:s.name,realName:s.realName,operator:s.operator,totalPts:s.totalPts,usedPts:s.usedPts});
+        }
+        toast('云端已重置');
+      }catch(e){console.error('reset cloud err',e);toast('云端重置失败，请重试','error');return;}
+    }
+    D=JSON.parse(JSON.stringify(DEF));save();curStreamer=null;curOperator='';
+    document.getElementById('streamerInput').value='';document.getElementById('operatorSelect').textContent='';
+    render();
+  });
+}
+
+
+function render(){
+  renderPoints();renderGifts();populateGiftDropdown();
+}
+// BUG-12+17 fix: show loading indicator instead of rendering DEF data immediately
+document.getElementById('giftArea').innerHTML='<div style="text-align:center;padding:48px;color:var(--text3)">数据加载中...</div>';
+</script>
+<!-- Custom Confirm/Prompt Dialog -->
+<div class="custom-dialog-overlay" id="customDialog" style="display:none">
+  <div class="custom-dialog-box">
+    <div class="custom-dialog-msg" id="customDialogMsg"></div>
+    <input type="text" class="custom-dialog-input" id="customDialogInput" style="display:none">
+    <div class="custom-dialog-btns">
+      <button class="btn btn-ghost btn-small" id="customDialogCancel">取消</button>
+      <button class="btn btn-primary btn-small" id="customDialogOk">确认</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
