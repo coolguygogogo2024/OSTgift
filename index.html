@@ -566,7 +566,7 @@ const DEF={
   records:[]
 };
 
-const KEY='gx_star_v5';
+const KEY='gx_star_v6';
 let D=(()=>{try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return JSON.parse(JSON.stringify(DEF))})();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){toast('保存失败：存储空间不足，请清理旧数据','error');console.error(e)}}
 function exportRecords(){
