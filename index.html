@@ -296,6 +296,7 @@ input[type=number]{-moz-appearance:textfield}
   .wrap{padding:0 16px}
 }
 </style>
+  <script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.1/cloudbase.full.js"></script>
 </head>
 <body>
 <div class="aurora-bg"></div>
@@ -498,7 +499,8 @@ const DEF={
     {id:'g24',name:'手机散热器',emoji:'📱',total:3,used:0,cost:45,tier:'b'},
     {id:'g25',name:'单次履约保护卡',emoji:'🛡️',total:3,used:0,cost:30,tier:'b'}
   ],
-  records:[],
+  records:[]
+,
   streamers:[
     {id:'db1',name:'瑞瑞',realName:'李瑞',operator:'彭闵',totalPts:209,usedPts:0},
     {id:'db2',name:'子仪',realName:'滕梓怡',operator:'许丽红',totalPts:177,usedPts:0},
@@ -740,7 +742,8 @@ function populateGiftDropdown(){
   if(curId){const opt=sel.querySelector('option[value="'+curId+'"]');if(opt&&!opt.disabled)sel.value=curId}
 }
 function onGiftDropdownChange(){}
-function quickRedeem(){
+function quickRedeem(){doRedeem()}
+async function doRedeem(){
   const gid=document.getElementById('giftDropdown').value;
   const nm=document.getElementById('rdmName').value.trim();
   const op=document.getElementById('operatorSelect').textContent;
@@ -752,8 +755,16 @@ function quickRedeem(){
   if(!g||remain(g)<=0){toast('库存不足','error');return}
   const s=D.streamers.find(x=>x.id===curStreamer);
   if(s.totalPts-s.usedPts<g.cost){toast('积分不足','error');return}
+  // CloudBase atomic stock update
+  if(tcbReady){
+    try{
+      const cloudRes=await tcbDb.collection('gifts').doc(g.id).update({$inc:{used:1}});
+      if(!(cloudRes.updated>0)){toast('该礼物已被抢完，请刷新后重试','error');return}
+    }catch(e){console.error('cloud redeem err',e);toast('网络异常，请稍后重试','error');return}
+  }
   g.used++;s.usedPts+=g.cost;
-  D.records.unshift({id:uid(),giftId:g.id,giftName:g.name,streamerId:s.id,streamerName:s.name,redeemer:nm,operator:op,qty:1,ptsUsed:g.cost,ts:Date.now()});
+  const rec={id:uid(),giftId:g.id,giftName:g.name,streamerId:s.id,streamerName:s.name,redeemer:nm,operator:op,qty:1,ptsUsed:g.cost,ts:Date.now()};if(tcbReady){try{tcbDb.collection("records").add(rec).catch(()=>{})}catch(e){}}
+  D.records.unshift(rec);
   save();render();toast(`${nm} 兑换 ${g.name} 成功`,'success');
 }
 
