@@ -675,7 +675,7 @@ function renderGifts(){
   const tiers={s:[],b:[],a:[]};
   D.gifts.forEach(g=>{(tiers[g.tier]||tiers.a).push(g)});
 
-  const tierOrder=['s','b','a'];
+  const tierOrder=['s','a','b'];
   let html='';
   tierOrder.forEach(tk=>{
     const gifts=tiers[tk];if(!gifts||!gifts.length)return;
